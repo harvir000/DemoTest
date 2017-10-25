@@ -5,7 +5,8 @@ import java.util.ArrayList;
 
 import org.openqa.selenium.WebDriver;
 
-import pageObjectPckg.*;
+import com.VTB.Pages.*;
+
 import utilsPckg.*;
 import reportingPckg.*;
 public class BookingModule extends UtillityClass implements TCSelection{
