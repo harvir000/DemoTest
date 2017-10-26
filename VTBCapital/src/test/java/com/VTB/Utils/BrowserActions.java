@@ -119,16 +119,16 @@ public class BrowserActions {
 	public void setText(WebElement element, String value, String imagePath, String message) {
 		try {
 
-			if(driver.toString().contains("ANDROID"))
+		/*	if(driver.toString().contains("ANDROID"))
 			{
 				Actions action=new Actions(driver);
 				action.moveToElement(element).click().sendKeys(value).build().perform();
 			}
 			else
-			{
+			{*/
 
 				element.sendKeys(value);
-			}
+			//}
 			report.extentReportlogSteps_Update(LogStatus.INFO, "Text Entered", message, imagePath, element);
 		} catch (Exception e) {
 			report.extentReportlogSteps_Update(LogStatus.FAIL, "Text Entered", message, imagePath, element);
