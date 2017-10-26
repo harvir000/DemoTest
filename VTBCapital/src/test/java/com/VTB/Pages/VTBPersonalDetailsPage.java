@@ -7,19 +7,16 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import functionLibrary.BrowserActions;
-import reportingPckg.Reporting;
-import utilsPckg.Excel;
+import com.VTB.Utils.BrowserActions;
+import com.VTB.Utils.Reporting;
 
 public class VTBPersonalDetailsPage {
 	
 	WebDriver driver;
-	Excel objExcel;
-	WebDriverWait wait;
 	Reporting report;
 	BrowserActions browserAction;
+	String imgPath = "";
 	
 	/*Constructor*/
 	public VTBPersonalDetailsPage(WebDriver driver,Reporting report){
@@ -28,6 +25,7 @@ public class VTBPersonalDetailsPage {
       	//Initialise Element
       	PageFactory.initElements(driver, this);
       	browserAction = new BrowserActions(driver, report);
+      	imgPath = report.imagePath;
    }
 
 	/*Locators*/
@@ -219,138 +217,167 @@ public class VTBPersonalDetailsPage {
 	@FindBy(how = How.CSS, using = "#submit_applicationForm")
 	private WebElement continueSecurelyRadioButton;
 	
+	@FindBy(css="#address")
+	private WebElement selectCurrentAddress;
+	
    /*Methods*/
-
-	public void selectCriteria(WebElement element, String message){
-		browserAction.clickJS(element, report.imagePath, message);
-	}
 	
-	public void enterText(WebElement element, String value, String message) {
-		browserAction.setText(element, value, report.imagePath, message);
-	}
-	
-	public void clickOnContinueSecurely(WebElement element, String message) {
-		browserAction.scrollToElement(element);
-		browserAction.clickJS(element, report.imagePath, message);
-	}
-	
-	
-	/*Enter Personal Details*/
-	public void enterPersonalDetails(String rowValue) throws Exception {
-		
-		browserAction.WaittoPageLoad();
-		
-		objExcel	=	new Excel();
-		
-	/*Getting Data from Test Data sheet*/
-		LinkedHashMap <String,String> testCaseData	= objExcel.getTestCaseData(rowValue);
-		
-	/*Selecting Title*/
+	public void setTitle(LinkedHashMap <String,String> testCaseData) {
 		if (testCaseData.get("Title").equalsIgnoreCase("Mr")) {
-			selectCriteria(this.titleMrRadioButton, "Mr. Title has been selected");
+			browserAction.clickJS(titleMrRadioButton, imgPath, "Mr. Title has been selected");
 		}else if (testCaseData.get("Title").equalsIgnoreCase("Mrs")) {
-			selectCriteria(this.titleMrsRadioButton, "Mrs. Title has been selected");
+			browserAction.clickJS(titleMrsRadioButton, imgPath, "Mrs. Title has been selected");
 		}else if (testCaseData.get("Title").equalsIgnoreCase("Miss")) {
-			selectCriteria(this.titleMissRadioButton, "Miss Title has been selected");
+			browserAction.clickJS(titleMissRadioButton, imgPath, "Miss Title has been selected");
 		}else if (testCaseData.get("Title").equalsIgnoreCase("Ms")) {
-			selectCriteria(this.titleMsRadioButton, "Ms Title has been selected");
+			browserAction.clickJS(titleMsRadioButton, imgPath, "Ms Title has been selected");
 		}else if (testCaseData.get("Title").equalsIgnoreCase("Mx")) {
-			selectCriteria(this.titleMxRadioButton, "Mx Title has been selected");
+			browserAction.clickJS(titleMxRadioButton, imgPath, "Mx Title has been selected");
 		}else if (testCaseData.get("Title").equalsIgnoreCase("other")) {
-			selectCriteria(this.titleOtherRadioButton, "Other Title has been selected");
+			browserAction.clickJS(titleOtherRadioButton, imgPath, "Other Title has been selected");
 		}
-		
-	/*Setting FirstName and Surname*/
-		enterText(this.FirstNameField, testCaseData.get("FirstName"), "FirstName has been entered");
-		enterText(this.SurnameField, testCaseData.get("Surname"), "Surname has been entered");
-		
-	/*Setting Date of Birth*/
-		enterText(this.dobDayField, testCaseData.get("Day"), "Day has been entered");
-		enterText(this.dobMonthField, testCaseData.get("Month"), "Month has been entered");
-		enterText(this.dobYearField, testCaseData.get("Year"), "Year has been entered");
-		
-	/*Setting City of Birth and Country of Birth*/
-		enterText(this.cityOfBirthField, testCaseData.get("CityOfBirth"), "City of Birth has been entered");
-		enterText(this.countryOfBirthField, testCaseData.get("CountryOfBirth"), "Country of Birth has been entered");
-		
-	/*Setting Tax Information*/
+	}
+	
+	public void setName(LinkedHashMap <String,String> testCaseData) {
+		browserAction.ScrollAndSetText(FirstNameField, testCaseData.get("FirstName"), imgPath, "FirstName has been entered");
+		browserAction.ScrollAndSetText(SurnameField, testCaseData.get("Surname"), imgPath, "Surname has been entered");
+	}
+	
+	public void setDOB(LinkedHashMap <String,String> testCaseData) {
+		browserAction.ScrollAndSetText(dobDayField, testCaseData.get("Day"), imgPath, "Day has been entered");
+		browserAction.ScrollAndSetText(dobMonthField, testCaseData.get("Month"), imgPath, "Month has been entered");
+		browserAction.ScrollAndSetText(dobYearField, testCaseData.get("Year"), imgPath, "Year has been entered");
+	}
+	
+	public void setBirthPlace(LinkedHashMap <String,String> testCaseData) {
+		browserAction.ScrollAndSetText(cityOfBirthField, testCaseData.get("CityOfBirth"), imgPath, "City of Birth has been entered");
+		browserAction.ScrollAndSetText(countryOfBirthField, testCaseData.get("CountryOfBirth"), imgPath, "Country of Birth has been entered");
+	}
+	
+	public void setTaxInformation(LinkedHashMap <String,String> testCaseData) {
 		if (testCaseData.get("TaxInformation").equalsIgnoreCase("no")) {
-			selectCriteria(this.taxInformationNoRadioButton, "No Tax Information is selected");
+			browserAction.clickJS(taxInformationNoRadioButton, imgPath, "No Tax Information is selected");
 		} else {
-			selectCriteria(this.taxInformationYesRadioButton, "Yes Tax Information is selected");
-			enterText(this.taxInformationCountryField, testCaseData.get("TaxCountry"), "Tax Country has been entered");
-			enterText(this.taxInformationTaxNumberField, testCaseData.get("TaxNumber"), "Tax Number has been entered");
+			browserAction.clickJS(taxInformationYesRadioButton, imgPath, "Yes Tax Information is selected");
+			browserAction.ScrollAndSetText(taxInformationCountryField, testCaseData.get("TaxCountry"), imgPath, "Tax Country has been entered");
+			browserAction.ScrollAndSetText(taxInformationTaxNumberField, testCaseData.get("TaxNumber"), imgPath, "Tax Number has been entered");
 		}
+	}
+	
+	public void setCurrentAddress(LinkedHashMap <String,String> testCaseData) throws InterruptedException {
+		browserAction.ScrollAndSetText(currentAddressHouseNumberField, testCaseData.get("CurrentHouseNumber"), imgPath, "Current Address's House Number has been entered");
+		browserAction.ScrollAndSetText(currentAddressPostCodeField, testCaseData.get("CurrentPostCode"), imgPath, "Current Address's Post Code has been entered");
+		browserAction.clickJS(currentFindAddressButton, imgPath, "Find Address has been selected");
+		browserAction.waitForElement(currentSelectedAddressField);
 		
-	/*Setting Current Address*/	
-		enterText(this.currentAddressHouseNumberField, testCaseData.get("CurrentHouseNumber"), "Current Address's House Number has been entered");
-		enterText(this.currentAddressPostCodeField, testCaseData.get("CurrentPostCode"), "Current Address's Post Code has been entered");
-		selectCriteria(this.currentFindAddressButton, "Find Address has been selected");
-		enterText(this.currentSelectedAddressField, testCaseData.get("CurrentSelectedAddress"), "Current Selected Address has been entered");
-//		browserAction.sendTab(currentSelectedAddressField);
+			browserAction.selectFromDD(selectCurrentAddress,testCaseData.get("CurrentSelectedAddress"));
+	
+		browserAction.ScrollAndSetText(currentSelectedAddressField, testCaseData.get("CurrentSelectedAddress"), imgPath, "Current Selected Address has been entered");
+		
 		browserAction.clearText(currentFlatNumberField);
-		enterText(this.currentFlatNumberField, testCaseData.get("CurrentFlatNumber"), "Current Address's Flat Number has been entered");
+		browserAction.ScrollAndSetText(currentFlatNumberField, testCaseData.get("CurrentFlatNumber"), imgPath, "Current Address's Flat Number has been entered");
 		browserAction.clearText(currentBuildingNumberField);
-		enterText(this.currentBuildingNumberField, testCaseData.get("CurrentBuildingNumber"), "Current Address's Building Number has been entered");
-		
-	/*Setting Living Eligibility*/
+		browserAction.ScrollAndSetText(currentBuildingNumberField, testCaseData.get("CurrentBuildingNumber"), imgPath, "Current Address's Building Number has been entered");
+	}
+	
+	public void setLivingEligibility(LinkedHashMap <String,String> testCaseData) {
 		if (testCaseData.get("LivingEligibility").equalsIgnoreCase("yes")) {
-			selectCriteria(this.livingEligibilityYesRadioButton, "Customer satisfied Living Eligible Criteria");
+			browserAction.clickJS(livingEligibilityYesRadioButton, imgPath, "Customer satisfied Living Eligible Criteria");
 		} else {
-			selectCriteria(this.livingEligibilityNoRadioButton, "Customer does not satisfy Living Eligible Criteria");
-			
+			browserAction.clickJS(livingEligibilityNoRadioButton, imgPath, "Customer does not satisfy Living Eligible Criteria");
 			/*Setting Previous Address*/
-			enterText(this.previousAddressHouseNumberField, testCaseData.get("PreviousHouseNumber"), "Previous Address's House Number has been entered");
-			enterText(this.previousAddressPostCodeField, testCaseData.get("PreviousPostCode"), "Previous Address's Post Code has been entered");
-			selectCriteria(this.previousFindAddressButton, "Find Address has been selected");
-			enterText(this.previousSelectedAddressField, testCaseData.get("PreviousSelectedAddress"), "Previous Selected Address has been entered");
-			enterText(this.previousFlatNumberField, testCaseData.get("PreviousFlatNumber"), "Previous Address's Flat Number has been entered");
-			enterText(this.previousBuildingNumberField, testCaseData.get("PreviousBuildingNumber"), "Previous Address's Building Number has been entered");
+			setPreviousAddress(testCaseData);
 		}
-		
-	/*Setting	Email and Mobile Number*/
-		enterText(this.emailAddressField, testCaseData.get("EmailAddress"), "Email has been entered");
-		enterText(this.mobileNumberField, testCaseData.get("MobileNumber"), "Mobile has been entered");
-		
-	/*Setting Security Questions and Answers*/
-		enterText(this.securityQuestion1Field, testCaseData.get("SecurityQuestion1"), "Security Question 1 has been entered");
-		enterText(this.securityAnswer1Field, testCaseData.get("SecurityAnswer1"), "Security Answer 1 has been entered");
-		enterText(this.securityQuestion2Field, testCaseData.get("SecurityQuestion2"), "Security Question 2 has been entered");
-		enterText(this.securityAnswer2Field, testCaseData.get("SecurityAnswer2"), "Security Answer 2 has been entered");
-		
-	/*Setting Pin, Nominated Account Number and Nominated SortCode*/
-		enterText(this.pinField, testCaseData.get("Pin"), "Pin has been entered");
-		enterText(this.nominatedAccountNumberField, testCaseData.get("NominatedAccountNumber"), "Nominated Account Number has been entered");
-		enterText(this.nominatedSortCodeField, testCaseData.get("NominatedSortCode"), "Nominated Sort Code has been entered");
-		
-	/*Setting Interest Payment*/
+	}
+	
+	public void setPreviousAddress(LinkedHashMap <String,String> testCaseData) {
+		browserAction.ScrollAndSetText(previousAddressHouseNumberField, testCaseData.get("PreviousHouseNumber"), imgPath, "Previous Address's House Number has been entered");
+		browserAction.ScrollAndSetText(previousAddressPostCodeField, testCaseData.get("PreviousPostCode"), imgPath, "Previous Address's Post Code has been entered");
+		browserAction.clickJS(previousFindAddressButton, imgPath, "Find Address has been selected");
+		browserAction.ScrollAndSetText(previousSelectedAddressField, testCaseData.get("PreviousSelectedAddress"), imgPath, "Previous Selected Address has been entered");
+		browserAction.ScrollAndSetText(previousFlatNumberField, testCaseData.get("PreviousFlatNumber"), imgPath, "Previous Address's Flat Number has been entered");
+		browserAction.ScrollAndSetText(previousBuildingNumberField, testCaseData.get("PreviousBuildingNumber"), imgPath, "Previous Address's Building Number has been entered");
+	}
+	
+	public void setEmailAndMobile(LinkedHashMap <String,String> testCaseData) {
+		browserAction.ScrollAndSetText(emailAddressField, testCaseData.get("EmailAddress"), imgPath, "Email has been entered");
+		browserAction.ScrollAndSetText(mobileNumberField, testCaseData.get("MobileNumber"), imgPath, "Mobile has been entered");
+	}
+	
+	public void setQuestionsAndAnswers(LinkedHashMap <String,String> testCaseData) {
+		browserAction.ScrollAndSetText(securityQuestion1Field, testCaseData.get("SecurityQuestion1"), imgPath, "Security Question 1 has been entered");
+		browserAction.ScrollAndSetText(securityAnswer1Field, testCaseData.get("SecurityAnswer1"), imgPath, "Security Answer 1 has been entered");
+		browserAction.ScrollAndSetText(securityQuestion2Field, testCaseData.get("SecurityQuestion2"), imgPath, "Security Question 2 has been entered");
+		browserAction.ScrollAndSetText(securityAnswer2Field, testCaseData.get("SecurityAnswer2"), imgPath, "Security Answer 2 has been entered");
+	}
+	
+	public void setPinAndNominatedAccountDetails(LinkedHashMap <String,String> testCaseData) {
+		browserAction.ScrollAndSetText(pinField, testCaseData.get("Pin"), imgPath, "Pin has been entered");
+		browserAction.ScrollAndSetText(nominatedAccountNumberField, testCaseData.get("NominatedAccountNumber"), imgPath, "Nominated Account Number has been entered");
+		browserAction.ScrollAndSetText(nominatedSortCodeField, testCaseData.get("NominatedSortCode"), imgPath, "Nominated Sort Code has been entered");
+	}
+	
+	public void setInterestPayment(LinkedHashMap <String,String> testCaseData) {
 		if (testCaseData.get("InterestPaid").equalsIgnoreCase("monthly")) {
-			selectCriteria(this.monthlyInterestPaymentRadioButton, "Monthly Interest Paid has been selected");
+			browserAction.clickJS(monthlyInterestPaymentRadioButton, imgPath, "Monthly Interest Paid has been selected");
 		} else {
-			selectCriteria(this.annuallyInterestPaymentRadioButton, "Annually Interest Paid has been selected");
+			browserAction.clickJS(annuallyInterestPaymentRadioButton, imgPath, "Annually Interest Paid has been selected");
 		}
 		
-		enterText(this.paymentAccountField, testCaseData.get("PaymentAccount"), "Payment Account has been entered");
-		
-	/*Setting Confirmation Options*/
+		browserAction.ScrollAndSetText(paymentAccountField, testCaseData.get("PaymentAccount"), imgPath, "Payment Account has been entered");
+	}
+	
+	public void setConfirmationOptions(LinkedHashMap <String,String> testCaseData){
 		if (testCaseData.get("ConfirmationOption").equalsIgnoreCase("by email")) {
-			selectCriteria(this.emailConfirmationRadioButton, "Selecting only Email as Confirmation option");
+			browserAction.clickJS(emailConfirmationRadioButton, imgPath, "Selecting only Email as Confirmation option");
 		}else if (testCaseData.get("ConfirmationOption").equalsIgnoreCase("by mobile")) {
-			selectCriteria(this.mobileConfirmationRadioButton, "Selecting only Mobile as Confirmation option");
+			browserAction.clickJS(mobileConfirmationRadioButton, imgPath, "Selecting only Mobile as Confirmation option");
 		}else {
-			selectCriteria(this.emailConfirmationRadioButton, "Selecting Email as Confirmation option");
-			selectCriteria(this.mobileConfirmationRadioButton, "Selecting Mobile as Confirmation option");
+			browserAction.clickJS(emailConfirmationRadioButton, imgPath, "Selecting Email as Confirmation option");
+			browserAction.clickJS(mobileConfirmationRadioButton, imgPath, "Selecting Mobile as Confirmation option");
 		}
 		
 		if (testCaseData.get("Confirmation1").equalsIgnoreCase("Yes")) {
-			selectCriteria(this.termAndCondition1RadioButton, "Selecting Terms and condition1");
+			browserAction.clickJS(termAndCondition1RadioButton, imgPath, "Selecting Terms and condition1");
 		}
 		
 		if (testCaseData.get("Confirmation2").equalsIgnoreCase("Yes")) {
-			selectCriteria(this.termAndCondition2RadioButton, "Selecting Terms and condition2");
+			browserAction.clickJS(termAndCondition2RadioButton, imgPath, "Selecting Terms and condition2");
 		}
+	}
+	
+	/*Enter Personal Details*/
+	public void enterPersonalDetails(LinkedHashMap <String,String> testCaseData) throws InterruptedException 
+	{
 		
-		clickOnContinueSecurely(continueSecurelyRadioButton,"Selecting Continue Securely");
+		browserAction.WaittoPageLoad();
+		
+	/*Selecting Title*/
+		setTitle(testCaseData);
+	/*Setting FirstName and Surname*/
+		setName(testCaseData);
+	/*Setting Date of Birth*/
+		setDOB(testCaseData);
+	/*Setting City of Birth and Country of Birth*/
+		setBirthPlace(testCaseData);
+	/*Setting Tax Information*/
+		setTaxInformation(testCaseData);
+	/*Setting Current Address*/	
+		setCurrentAddress(testCaseData);
+	/*Setting Living Eligibility*/
+		setLivingEligibility(testCaseData);
+	/*Setting Email and Mobile Number*/
+		setEmailAndMobile(testCaseData);
+	/*Setting Security Questions and Answers*/
+		setQuestionsAndAnswers(testCaseData);
+	/*Setting Pin, Nominated Account Number and Nominated SortCode*/
+		setPinAndNominatedAccountDetails(testCaseData);
+	/*Setting Interest Payment*/
+		setInterestPayment(testCaseData);
+	/*Setting Confirmation Options*/
+		setConfirmationOptions(testCaseData);
+		browserAction.scrollToElement(continueSecurelyRadioButton);
+		browserAction.clickJS(continueSecurelyRadioButton);
 		
 	}
 	

@@ -2,19 +2,19 @@
 <values>
 	<!--<URL>https://www.upsrtconline.co.in/user/newuser</URL>-->
 	<URL>https://10.243.8.153/sites/ntw/home.html</URL>
-	<NUMOFTHREADS>4</NUMOFTHREADS>
-	<IPPORT1>http://127.0.0.1:5564/wd/hub</IPPORT1>
+	<NUMOFTHREADS>1</NUMOFTHREADS>
+	<IPPORT1>http://0.0.0.0:4723/wd/hub</IPPORT1>
 	<IPPORT2>http://127.0.0.1:5562/wd/hub</IPPORT2>
-	<IPPORT3>http://127.0.0.1:5566/wd/hub</IPPORT3>
-	<IPPORT4>http://0.0.0.0:4723/wd/hub</IPPORT4>
+	<IPPORT3>http://127.0.0.1:5564/wd/hub</IPPORT3>
+	<IPPORT4>http://127.0.0.1:5566/wd/hub</IPPORT4>
 
-	<BROWSER1>IE</BROWSER1>
+	<BROWSER1>ANDROIDCHROME</BROWSER1>
 	<BROWSER2>FF</BROWSER2>
-	<BROWSER3>GC</BROWSER3>
-	<BROWSER4>ANDROIDCHROME</BROWSER4>
+	<BROWSER3>IE</BROWSER3>
+	<BROWSER4>GC</BROWSER4>
 
-	<MASTEREXCELPATH>D:\\Users\\harvesingh\\Desktop\\VTBCapital\\TestData\\MASTERSHEET.xlsx</MASTEREXCELPATH>
-	<TESTDATAEXCELPATH>D:\\Users\\harvesingh\\Desktop\\VTBCapital\\TestData\\TESTDATA.xlsx</TESTDATAEXCELPATH>
+	<MASTEREXCELPATH>./TestData/MASTERSHEET.xlsx</MASTEREXCELPATH>
+	<TESTDATAEXCELPATH>./TestData/TESTDATA.xlsx</TESTDATAEXCELPATH>
 
 	<IEPortNo>5567</IEPortNo>
 	<FFPortNo>5568</FFPortNo>
@@ -23,5 +23,4 @@
 	<ANdroidChromePortNo>4723</ANdroidChromePortNo>
 	
 	
-
 </values>

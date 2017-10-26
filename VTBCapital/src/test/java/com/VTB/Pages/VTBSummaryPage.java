@@ -7,20 +7,16 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import functionLibrary.BrowserActions;
-import reportingPckg.Reporting;
-import utilsPckg.Excel;
+import com.VTB.Utils.BrowserActions;
+import com.VTB.Utils.Reporting;
 
 public class VTBSummaryPage {
 	
 	WebDriver driver;
-	Excel objExcel;
-	WebDriverWait wait;
 	Reporting report;
 	BrowserActions browserAction;
+	String imgPath = "";
 	
 	/*Constructor*/
 	public VTBSummaryPage(WebDriver driver,Reporting report){
@@ -29,6 +25,7 @@ public class VTBSummaryPage {
 	    //Initialise Element
 	    PageFactory.initElements(driver, this);
 	    browserAction = new BrowserActions(driver, report);
+	    imgPath = report.imagePath;
    }
 
 	/*Locators*/
@@ -75,60 +72,34 @@ public class VTBSummaryPage {
 	private WebElement switchVerificationMethodButton;
 	
 	/*Methods*/
-	public void selectVerificationMethod(WebElement element, String message) {
+	
+	public void setIdentityPreference(LinkedHashMap <String,String> testCaseData){
 		try {
 			Thread.sleep(1000);
 		} catch (Exception e) {
 			System.out.println(e.getStackTrace());
 		}
-		browserAction.scrollToElement(element);
-		browserAction.clickJS(element, report.imagePath, message);
+		if (testCaseData.get("IdentityPreference").equalsIgnoreCase("Mobile")) {
+			browserAction.ScrollAndClickOnElement(mobileRadioButton, imgPath, "Mobile has been selected as an Identity Preference");
+		} else {
+			browserAction.ScrollAndClickOnElement(emailRadioButton, imgPath, "Email has been selected as an Identity Preference");
+		}
 	}
 	
-	public void selectCriteria(WebElement element, String message) {
-		browserAction.scrollToElement(element);
-		browserAction.clickJS(element, report.imagePath, message);
+	public void setVerificationCodeField() throws InterruptedException {
+		browserAction.waitForElement(verificationCodeField);
+		browserAction.setText(verificationCodeField, "1234", imgPath, "Code has been entered");
 	}
 	
-//	public void clickOnSendMyCodeButton(){
-//		jse.executeScript("arguments[0].scrollIntoView(true);",sendMyCodeButton);
-//		jse.executeScript("arguments[0].click();", sendMyCodeButton);
-////		funbank.scrollToElement(sendMyCodeButton);
-////		funbank.clickOnElement(sendMyCodeButton);
-//	}
-
-	public void setVerificationCodeField() {
-		wait	= new WebDriverWait(driver,30);
-		wait.until(ExpectedConditions.elementToBeClickable(verificationCodeField));
-		browserAction.setText(verificationCodeField, "1234", report.imagePath, "Code has been entered");
-	}
-	
-//	public void clickOnContinueSecurelyButton(){
-//		jse.executeScript("arguments[0].scrollIntoView(true);",continueSecurelyButton);
-//		jse.executeScript("arguments[0].click();", continueSecurelyButton);
-////		funbank.scrollToElement(continueSecurelyButton);
-////		funbank.clickOnElement(continueSecurelyButton);
-//	}
-	
-	public void enterOTPDetails(String rowValue) throws Exception {
+	public void enterOTPDetails(LinkedHashMap <String,String> testCaseData) throws InterruptedException {
 		
 		browserAction.WaittoPageLoad();
 		
-		objExcel	=	new Excel();
-		
-	/*Getting Data from Test Data sheet*/
-		LinkedHashMap <String,String> testCaseData	= objExcel.getTestCaseData(rowValue);
-		
 	/*Setting Identity Preference*/
-		if (testCaseData.get("IdentityPreference").equalsIgnoreCase("Mobile")) {
-			selectVerificationMethod(this.mobileRadioButton, "Mobile has been selected as an Identity Preference");
-		} else {
-			selectVerificationMethod(this.emailRadioButton, "Email has been selected as an Identity Preference");
-		}
-		
-		selectCriteria(this.sendMyCodeButton, "Send my Code button has been selected");
+		setIdentityPreference(testCaseData);
+		browserAction.ScrollAndClickOnElement(sendMyCodeButton, imgPath, "Send my Code button has been selected");
 		setVerificationCodeField();
-		selectCriteria(this.continueSecurelyButton, "Continue Securely has been selected");
+		browserAction.ScrollAndClickOnElement(continueSecurelyButton, imgPath, "Continue Securely has been selected");
 	}
 	
 }

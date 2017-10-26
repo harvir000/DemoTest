@@ -9,10 +9,11 @@ import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.VTB.Utils.Excel;
+import com.VTB.Utils.JavaScriptExecuterUtility;
+import com.VTB.Utils.Reporting;
+
 import businessFunction.FunctionBank;
-import reportingPckg.Reporting;
-import utilsPckg.Excel;
-import utilsPckg.JavaScriptExecuterUtility;
 
 public class VTBApplicantSelectionPage {
 	
@@ -23,7 +24,7 @@ public class VTBApplicantSelectionPage {
 	WebDriverWait wait;
 	Reporting report;
 	JavaScriptExecuterUtility jsExecuter;
-	FunctionBank funbank;
+	//FunctionBank funbank;
 	
 	/*Constructor*/
 	public VTBApplicantSelectionPage(WebDriver driver,Reporting report){
@@ -32,7 +33,7 @@ public class VTBApplicantSelectionPage {
 	    //Initialise Element
 	    PageFactory.initElements(driver, this);
 	    jsExecuter = new JavaScriptExecuterUtility(driver);
-	    funbank = new FunctionBank(driver);
+	    //funbank = new FunctionBank(driver);
    }
 
 	/*Locators*/
@@ -51,7 +52,6 @@ public class VTBApplicantSelectionPage {
 	/*Methods*/
 	public void clickOnUser1LoginButton(){
 		jsExecuter.clickOnElement(user1LoginButton);
-//		funbank.clickOnElement(user1LoginButton);
 	}
 	
 	public void clickOnUser1SignupButton(){

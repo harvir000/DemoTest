@@ -8,16 +8,15 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 
-import functionLibrary.BrowserActions;
-import reportingPckg.Reporting;
-import utilsPckg.Excel;
+import com.VTB.Utils.BrowserActions;
+import com.VTB.Utils.Reporting;
 
 public class VTBCapitalHomePage {
 	
 	WebDriver driver;
-	Excel objExcel;
 	Reporting report;
 	BrowserActions browserAction;
+	String imgPath = "";
 	
 	/*Constructor*/
 	public VTBCapitalHomePage(WebDriver driver,Reporting report){
@@ -26,6 +25,7 @@ public class VTBCapitalHomePage {
        //Initialise Element
        PageFactory.initElements(driver, this);
        browserAction = new BrowserActions(driver, report);
+       imgPath = report.imagePath;
    }
 	
 	/*Locators*/
@@ -47,31 +47,29 @@ public class VTBCapitalHomePage {
 	
    /*Methods*/
 	
-	public void clickOnPlanType(WebElement element, String message) {
-		//browserAction.scrollToElement(element);
-		browserAction.click(element, report.imagePath, message);
+	public void clickOnPlan(WebElement element, String message) {
+		browserAction.scrollToElement(element);
+		browserAction.clickJS(element, imgPath, message);
 	}
 	
-	public void selectPlanType(String rowValue) throws Exception {
-		
-		objExcel		=	new Excel();
-		
-	/*Getting Data from Test Data sheet*/
-		LinkedHashMap <String,String> testCaseData	= objExcel.getTestCaseData(rowValue);
+	public void choosePlan(LinkedHashMap <String,String> testCaseData) {
+		if (testCaseData.get("PlanType").equalsIgnoreCase("120 Days Notice Account")) {
+			clickOnPlan(interestRate1_60Button, "Selecting 120 Days Notice Account");
+		}else if (testCaseData.get("PlanType").equalsIgnoreCase("1 Year Fixed Term")) {
+			clickOnPlan(interestRate2_20Button, "Selecting 1 Year Fixed Term");
+		}else if (testCaseData.get("PlanType").equalsIgnoreCase("2 Year Fixed Term")) {
+			clickOnPlan(interestRate2_60Button, "Selecting 2 Year Fixed Term");
+		}else if (testCaseData.get("PlanType").equalsIgnoreCase("5 Year Tracker")) {
+			clickOnPlan(interestRate3_90Button, "Selecting 5 Year Tracker");
+		} else {
+			clickOnPlan(interestRate3_10Button, "Selecting 3 Year Fixed Term");
+		}
+	}
+	
+	public void selectPlanType(LinkedHashMap <String,String> testCaseData) {
 		
 		browserAction.WaittoPageLoad();
-		
-		if (testCaseData.get("PlanType").equalsIgnoreCase("120 Days Notice Account")) {
-			clickOnPlanType(interestRate1_60Button, "Selecting 120 Days Notice Account");
-		}else if (testCaseData.get("PlanType").equalsIgnoreCase("1 Year Fixed Term")) {
-			clickOnPlanType(this.interestRate2_20Button, "Selecting 1 Year Fixed Term");
-		}else if (testCaseData.get("PlanType").equalsIgnoreCase("2 Year Fixed Term")) {
-			clickOnPlanType(this.interestRate2_60Button, "Selecting 2 Year Fixed Term");
-		}else if (testCaseData.get("PlanType").equalsIgnoreCase("5 Year Tracker")) {
-			clickOnPlanType(this.interestRate3_90Button, "Selecting 5 Year Tracker");
-		} else {
-			clickOnPlanType(this.interestRate3_10Button, "Selecting 3 Year Fixed Term");
-		}
+		choosePlan(testCaseData);
 	}
 	
 }

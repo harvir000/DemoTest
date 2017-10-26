@@ -9,8 +9,8 @@ import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import utilsPckg.Excel;
-import utilsPckg.JavaScriptExecuterUtility;
+import com.VTB.Utils.Excel;
+import com.VTB.Utils.JavaScriptExecuterUtility;
 
 public class VTBConfirmationPage {
 	
