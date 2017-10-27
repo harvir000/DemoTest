@@ -1,14 +1,9 @@
 package com.VTB.Utils;
 
-import java.util.concurrent.TimeUnit;
-
-import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -20,14 +15,24 @@ public class BrowserActions {
 	public WebDriver driver;
 	public JavascriptExecutor jse;
 	public Reporting report;
-	WebDriverWait wait;
-
+	public WebDriverWait wait;
+	
+	
+	/***
+	 * Constructor
+	 * @param driver
+	 * @param report
+	 */
 	public BrowserActions(WebDriver driver, Reporting report) {
 		this.driver = driver;
 		this.report = report;
+		
 		jse = (JavascriptExecutor)driver;
 	}
-
+	
+	/**
+	 * function for waiting Page Load to complete
+	 */
 	public void WaittoPageLoad()
 	{
 		// Below line of code will wait till page loaded completely
@@ -44,22 +49,36 @@ public class BrowserActions {
 			System.out.println(e.getStackTrace());
 		}
 	}
-
+	
+	/***
+	 * function to click on a WebElement
+	 * @param element
+	 * @param imagePath
+	 * @param message
+	 * @return
+	 */
 	public String click(WebElement element, String imagePath, String message) {
 
 		String click = "false";
 
 		try {
 			element.click();
-			report.extentReportlogSteps_Update(LogStatus.INFO, "Click", message, imagePath, element);
+			report.logStepToReport(LogStatus.INFO, "Click", message, imagePath, element);
 			click = "true";
 		} catch (Exception e) {
-			report.extentReportlogSteps_Update(LogStatus.FAIL, "Click", message, imagePath, element);
+			report.logStepToReport(LogStatus.FAIL, "Click", message, imagePath, element);
 			System.out.println("Unable to perform click");
 		}
 		return click;
 	}
-
+	
+	/***
+	 * function to click using JavaScriptExecuter
+	 * @param element
+	 * @param imagePath
+	 * @param message
+	 * @return
+	 */
 	public String clickJS(WebElement element, String imagePath, String message)
 	{
 
@@ -67,18 +86,23 @@ public class BrowserActions {
 
 		try {
 			((JavascriptExecutor) driver).executeScript("arguments[0].click();",element);
-
-			report.extentReportlogSteps_Update(LogStatus.INFO, "Click", message, imagePath, element);
+			
+			report.logStepToReport(LogStatus.INFO, "Click", message, imagePath, element);
 			click = "true";
 		} catch (Exception e) {
-			report.extentReportlogSteps_Update(LogStatus.FAIL, "Click", message, imagePath, element);
+			report.logStepToReport(LogStatus.FAIL, "Click", message, imagePath, element);
 			System.out.println("Unable to perform click");
 		}
 		return click;
 	}
-
-
-
+	
+	/***
+	 * function to click using JavaScriptExecuter
+	 * @param element
+	 * @param imagePath
+	 * @param message
+	 * @return
+	 */
 	public String clickJS(WebElement element)
 	{
 
@@ -89,20 +113,31 @@ public class BrowserActions {
 			click = "true";
 		} catch (Exception e) 
 		{	
+			report.logStepToReport(LogStatus.FAIL, "JS Click", e.getMessage(), report.imagePath, element);
 			System.out.println("Unable to perform click");
 		}
 		return click;
 	}
-
+	
+	/***
+	 * function to Scroll to element using JavaScriptExecuter
+	 * @param element
+	 */
 	public void scrollToElement(WebElement element) {
 		try{
 			((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);",element);
 		}
 		catch(Exception e){
+			report.logStepToReport(LogStatus.FAIL, "JS Scroll", e.getMessage(), report.imagePath, element);
 			System.out.println("Unable to perform scroll.");
 		}
 	}
-
+	
+	/***
+	 * function to get text from an element 
+	 * @param element
+	 * @return
+	 */
 	public String getText(WebElement element) {
 
 		String elementText = null;
@@ -110,53 +145,69 @@ public class BrowserActions {
 		try {
 			elementText = element.getText();
 		} catch(Exception e) {
+			report.logStepToReport(LogStatus.FAIL, "Get Text", e.getMessage(), report.imagePath, element);
 			System.out.println("Unable to get Element's Text");
 		}
 
 		return elementText;
 	}
-
+	
+	/***
+	 * function to set text in the field
+	 * @param element
+	 * @param value
+	 * @param imagePath
+	 * @param message
+	 */
 	public void setText(WebElement element, String value, String imagePath, String message) {
 		try {
-
-		/*	if(driver.toString().contains("ANDROID"))
+			
+			/*if(driver.toString().contains("ANDROID"))
 			{
-				Actions action=new Actions(driver);
-				action.moveToElement(element).click().sendKeys(value).build().perform();
+			Actions action=new Actions(driver);
+			action.moveToElement(element).click().sendKeys(value).build().perform();
 			}
 			else
 			{*/
 
-				element.sendKeys(value);
-			//}
-			report.extentReportlogSteps_Update(LogStatus.INFO, "Text Entered", message, imagePath, element);
+			element.sendKeys(value);
+//			}
+			report.logStepToReport(LogStatus.INFO, "Text Entered", message, imagePath, element);
 		} catch (Exception e) {
-			report.extentReportlogSteps_Update(LogStatus.FAIL, "Text Entered", message, imagePath, element);
+			report.logStepToReport(LogStatus.FAIL, "Text Entered", message, imagePath, element);
 			System.out.println("Unable to set text "+e);
 		}
 	}
-
+	
+	/***
+	 * function to clear text from the field
+	 * @param element
+	 */
 	public void clearText(WebElement element) {
 		element.clear();
 	}
-
+	
+	/***
+	 * function to send TAB key
+	 * @param element
+	 */
 	public void sendTab(WebElement element) {
 		element.sendKeys(Keys.TAB);
 	}
 
-	/**
-	 * 
+	/***
+	 * function to wait explicitly for an element to be clickable
 	 * @param element
 	 * @throws InterruptedException 
 	 */
 	public void waitForElement(WebElement element) throws InterruptedException
 	{
-		Thread.sleep(5000);// just for temp
-		/*	wait	= new WebDriverWait(driver,30);
-		wait.until(ExpectedConditions.elementToBeClickable(element));*/
+		wait	= new WebDriverWait(driver,30);
+		wait.until(ExpectedConditions.elementToBeClickable(element));
 	}
-	/**
-	 * 
+	
+	/***
+	 * function to wait explicitly for an element
 	 * @param element
 	 * @param time
 	 * @throws InterruptedException 
@@ -165,46 +216,45 @@ public class BrowserActions {
 	{
 		waitForElement(element);
 	}
-
-
+	
+	/***
+	 * function to Scroll and Click on element
+	 * @param element
+	 * @param imgPath
+	 * @param message
+	 */
 	public void ScrollAndClickOnElement(WebElement element, String imgPath, String message) {
 		scrollToElement(element);
 		clickJS(element, imgPath, message);
 	}
-
-
+	
+	/***
+	 * function to Scroll on element and set text in field
+	 * @param element
+	 * @param value
+	 * @param imgPath
+	 * @param message
+	 */
 	public void ScrollAndSetText(WebElement element, String value, String imgPath, String message) 
 	{
 		scrollToElement(element);
 		setText(element, value, imgPath, message);
 	}
-
-	/**
-	 * to select value from drop down
+	
+	/***
+	 * function to select value from Drop Down
+	 * @param element
+	 * @param value
 	 */
-
 	public void selectFromDD(WebElement element, String value)
 	{
-		try
-		{
-
-			/*if(driver.toString().contains("ANDROID"))	
-			{
-				element.sendKeys(value);
-			}
-			else
-			{*/
-				Select select =new Select(element);
-				select.selectByVisibleText(value);
-			//}
+		try {
+			Select select = new Select(element);
+			select.selectByVisibleText(value);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
-		catch(Exception e)
-		{
-
-
-		}
-
-
+		
 	}
 
 }

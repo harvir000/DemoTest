@@ -18,18 +18,26 @@ public class VTBStartPage {
 	Reporting report;
 	BrowserActions browserAction;
 	String imgPath = "";
-
-	/*Constructor*/
+	
+	/***
+	 * Constructor
+	 */
+	
 	public VTBStartPage(WebDriver driver,Reporting report){
-		this.driver=driver;
-		this.report = report;
-		//Initialise Element
-		PageFactory.initElements(driver, this);
-		browserAction = new BrowserActions(driver, report);
-		imgPath = report.imagePath;
+		this.driver = driver;
+        this.report = report;
+        
+        /*Initialize Elements*/
+        PageFactory.initElements(driver, this);
+        
+        browserAction = new BrowserActions(driver, report);
+        imgPath = report.imagePath;
 	}
 
-	/*Locators*/
+	/***
+	 * Locators
+	 */
+	
 	@FindBy(how = How.CSS, using = "input#optionsRadios1")
 	private WebElement ageEligibilityYesRadioButton;
 
@@ -70,8 +78,11 @@ public class VTBStartPage {
 	@FindBy(how = How.CSS, using = "button#begin")
 	private WebElement startApplicationButton;
 
-	/*Methods*/
+	/***
+	 * Methods
+	 */
 
+	/*Select Age Eligibility i.e. Yes or No*/ 
 	public void setAge(LinkedHashMap <String,String> testCaseData) {
 		if (testCaseData.get("EligibleAge").equalsIgnoreCase("Yes")) {
 			browserAction.ScrollAndClickOnElement(ageEligibilityYesRadioButton, imgPath, "Age is Eligible");
@@ -79,7 +90,8 @@ public class VTBStartPage {
 			browserAction.ScrollAndClickOnElement(ageEligibilityNoRadioButton, imgPath, "Age is not Eligible");
 		}
 	}
-
+	
+	/*Select Resident Eligibility i.e. Yes or No*/
 	public void setResident(LinkedHashMap <String,String> testCaseData) {
 		if (testCaseData.get("EligibleResident").equalsIgnoreCase("Yes")) {
 			browserAction.ScrollAndClickOnElement(residentEligibilityYesRadioButton, imgPath, "Resident is Eligible");
@@ -87,7 +99,8 @@ public class VTBStartPage {
 			browserAction.ScrollAndClickOnElement(residentEligibilityNoRadioButton, imgPath, "Resident is not Eligible");
 		}
 	}
-
+	
+	/*Select Fatca Eligibility i.e. Yes or No*/
 	public void setFatca(LinkedHashMap <String,String> testCaseData) {
 		if (testCaseData.get("EligibleFATCA").equalsIgnoreCase("Yes")) {
 			browserAction.ScrollAndClickOnElement(fatcaEligibilityYesRadioButton, imgPath, "Fatca is Eligible");
@@ -95,7 +108,8 @@ public class VTBStartPage {
 			browserAction.ScrollAndClickOnElement(fatcaEligibilityNoRadioButton, imgPath, "Fatca is not Eligible");
 		}
 	}
-
+	
+	/*Select Payment Eligibility i.e. Yes or No*/
 	public void setPayment(LinkedHashMap <String,String> testCaseData) {
 		if (testCaseData.get("EligiblePayment").equalsIgnoreCase("Yes")) {
 			browserAction.ScrollAndClickOnElement(currentAccountEligibilityYesRadioButton, imgPath, "Payment is Eligible");
@@ -103,7 +117,8 @@ public class VTBStartPage {
 			browserAction.ScrollAndClickOnElement(currentAccountEligibilityNoRadioButton, imgPath, "Payment is not Eligible");
 		}
 	}
-
+	
+	/*Select Eligibility Criteria*/
 	public void selectEligibility(LinkedHashMap <String,String> testCaseData) {
 		setAge(testCaseData);
 		setResident(testCaseData);
@@ -111,7 +126,8 @@ public class VTBStartPage {
 		setFatca(testCaseData);
 		setPayment(testCaseData);
 	}
-
+	
+	/*Select Account Type i.e. Individual Only, Joint Only or both an Individual or Joint Account*/
 	public void selectCurrentAccountType(LinkedHashMap <String,String> testCaseData) {
 		if (testCaseData.get("CurrentAccountWithVTBCapital").equalsIgnoreCase("Individual Account Only")) {
 			browserAction.ScrollAndClickOnElement(individualAccountOnlyRadioButton, imgPath, "Individual Account Only has been selected");
@@ -121,7 +137,8 @@ public class VTBStartPage {
 			browserAction.ScrollAndClickOnElement(bothAnIndividualAndAJointAccountRadioButton, imgPath, "Both an Individual and a Joint Account has been selected");
 		}
 	}
-
+	
+	/*Set Eligibility Criteria*/
 	public void setEligilibiltyCriteria(LinkedHashMap <String,String> testCaseData) {
 
 		browserAction.WaittoPageLoad();

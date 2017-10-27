@@ -27,11 +27,22 @@ public class Excel {
 	
 	public XMLReader xml;
 	
+	/***
+	 * Default Constructor for Excel
+	 */
 	public Excel()
 	{
 		xml = new XMLReader("config.xml");
 	}
 	
+	/***
+	 * function to get ExcelPath
+	 * @param path
+	 * @return
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @throws Exception
+	 */
 	public FileInputStream getExcelPath(String path) throws FileNotFoundException, IOException, Exception
 	{
 		try
@@ -54,6 +65,13 @@ public class Excel {
 		
 	}
 	
+	/***
+	 * function to get Total used Rows in Sheet
+	 * @param path
+	 * @param sheetNo
+	 * @return
+	 * @throws Exception
+	 */
 	public int getRowCount(String path, int sheetNo) throws Exception
 	{
 		int totRowCount = 0;
@@ -72,111 +90,15 @@ public class Excel {
 		return totRowCount;
 	}
 	
-//	public String getSheetValue(String path, String sheet, String row, String columnname) throws IOException
-//	{
-//		int sheetNo=-1;
-//		String Flag = "";
-//		 try{
-//			 sheetNo= Integer.parseInt(sheet)-1;
-//			 
-//		 }catch(Exception e){
-//		 }
-//			 try{
-//			if((FilenameUtils.getExtension(path)).equalsIgnoreCase("xlsx"))
-//			{
-//				try
-//				{
-//					FileInputStream file1 = new FileInputStream(new File(path));
-//					XSSFWorkbook ExcelWBook = new XSSFWorkbook(file1);
-//					XSSFSheet ExcelWSheet;
-//					
-//	//				int rowCount = ExcelWSheet.getLastRowNum()-ExcelWSheet.getFirstRowNum();
-//					if(sheetNo>-1)
-//						ExcelWSheet = ExcelWBook.getSheet(ExcelWBook.getSheetAt(sheetNo).getSheetName());
-//					else
-//						ExcelWSheet = ExcelWBook.getSheet(sheet);
-//					
-//					 Row firstRow = ExcelWSheet.getRow(0);
-//				      for(Cell cell:firstRow)
-//				      {
-//			        	 if (cell.getStringCellValue().equals(columnname))
-//			             {
-//			        		 int row1 = (int)Float.parseFloat(row);
-//			            	 Row vrow = ExcelWSheet.getRow(row1);
-//			            	 cell = vrow.getCell(cell.getColumnIndex());
-//			            	 if(cell.getCellType()==0)
-//			            	 {
-//			            		 return Double.toString(cell.getNumericCellValue());
-//			            	 }
-//			            	 else if(cell.getCellType()==1)
-//			            	 {
-//			            		 return cell.getStringCellValue();
-//			            	 }
-//			            	 else if (cell.getCellType()==3)
-//			            	 {
-//			            		 return "";
-//			            	 }
-//			            	 Flag = "True";
-//			             }
-//				      }
-//			      if(Flag.equalsIgnoreCase("False"))
-//			      {
-//			    	  return "";
-//			      }
-//				}
-//				catch(Exception e1)
-//				{
-//					System.out.println("exception while readin excel"+e1.getMessage());
-//				}
-//			}
-//			else if((FilenameUtils.getExtension(path)).equalsIgnoreCase("xls"))
-//			{
-//				FileInputStream file1 = new FileInputStream(new File(path));
-//				HSSFWorkbook ExcelWBook = new HSSFWorkbook(file1);
-//				HSSFSheet ExcelWSheet = ExcelWBook.getSheet(sheet);
-//	//			int rowCount = ExcelWSheet.getLastRowNum()-ExcelWSheet.getFirstRowNum();
-//				if(sheetNo>-1)
-//					ExcelWSheet = ExcelWBook.getSheet(ExcelWBook.getSheetAt(sheetNo).getSheetName());
-//				else
-//					ExcelWSheet = ExcelWBook.getSheet(sheet);
-//				
-//				Row firstRow = ExcelWSheet.getRow(0);
-//			      for(Cell cell:firstRow)
-//			      {
-//		        	 if (cell.getStringCellValue().equals(columnname))
-//		             {
-//		        		 int row1 = (int)Float.parseFloat(row);
-//		            	 Row vrow = ExcelWSheet.getRow(row1);
-//		            	 cell = vrow.getCell(cell.getColumnIndex());
-//		            	 if(cell.getCellType()==0)
-//		            	 {
-//		            		 return Double.toString(cell.getNumericCellValue());
-//		            	 }
-//		            	 else if(cell.getCellType()==1)
-//		            	 {
-//		            		 return cell.getStringCellValue();
-//		            	 }
-//		            	 else if (cell.getCellType()==3)
-//		            	 {
-//		            		 return "";
-//		            	 }
-//		            	 Flag = "True";
-//		             }
-//		           }
-//			      if(Flag.equalsIgnoreCase("False"))
-//			      {
-//	//		    	  Libs.addToReport("Error ID 17 : Could not read column name : "+ colName, Libs.FAIL);
-//			    	  return "";
-//			      }
-//			}
-//			return Flag;
-//		 }
-//		 catch(IOException ie)
-//		 {
-//			 throw new IOException("Some problem in reading data from excel.");
-//		 }
-//	}
-
+	/***
+	 * function to get Sheet Value
+	 * @param path
+	 * @param sheet
+	 * @param row
+	 * @param columnname
+	 * @return
+	 * @throws IOException
+	 */
 	public String getSheetValue(String path, String sheet, String row, String columnname) throws IOException
 	{
 		int sheetNo=-1;
@@ -262,7 +184,6 @@ public class Excel {
 		           }
 			      if(Flag.equalsIgnoreCase("False"))
 			      {
-	//		    	  Libs.addToReport("Error ID 17 : Could not read column name : "+ colName, Libs.FAIL);
 			    	  return "";
 			      }
 			}
@@ -274,6 +195,11 @@ public class Excel {
 		 }
 	}
 	
+	/***
+	 * function to get Master Sheet data in LinkedHashMap
+	 * having Keys as TestCaseId and value as complete data of that TestCaseId
+	 * @return
+	 */
 	public LinkedHashMap<String, ArrayList<String>> getMasterSheetData()// Can pass config.xml var name and it will fecth testdata values as well
 	{
 		LinkedHashMap<String, ArrayList<String>> map = new LinkedHashMap<String, ArrayList<String>>();
@@ -281,24 +207,24 @@ public class Excel {
 		{
 			try
 			{
-				// Create object for sheet
+				/*Create object for sheet*/
 //				XSSFSheet MasterSheet = new XSSFWorkbook(new FileInputStream(new File(xml.readTagVal("MASTEREXCELPATH")))).getSheetAt(0);
 				XSSFSheet MasterSheet = getXSSFSheetObject(getXSSFWorkbookObject(xml.readTagVal("MASTEREXCELPATH")), "1");
 				Row row;
 				Cell cell = null;
 				
-				//will get number of columns
+				/*Get total number of used columns*/
 				int numOfColumns = MasterSheet.getRow(0).getLastCellNum();
 				
-				//loop will perform on rows
-				// we are starting rom 1 as 0 is headers of row.
-				for(int counter =1; counter<=MasterSheet.getLastRowNum(); counter ++)
+				/*loop for rows starting from 1 as 0 is header of row*/
+				for(int counter = 1; counter <= MasterSheet.getLastRowNum(); counter ++)
 				{
 					ArrayList<String> mapData = new ArrayList<String>();
 					row = MasterSheet.getRow(counter);
 					String val ="";
-					//loop will perform on columns
-					for(int colCounter = 1 ; colCounter<numOfColumns; colCounter++)
+					
+					/*loop for columns*/
+					for(int colCounter = 1 ; colCounter < numOfColumns; colCounter++)
 					{
 						cell = row.getCell(colCounter);
 						 if(cell.getCellType()==0)
@@ -317,7 +243,6 @@ public class Excel {
 					}
 					map.put(row.getCell(0).getStringCellValue(), mapData);
 				}
-//				System.out.println(map);
 			}
 			catch(Exception e)
 			{
@@ -328,8 +253,11 @@ public class Excel {
 		
 	}
 	
-	
-	
+	/***
+	 * function to get XSSF Workbook's Object
+	 * @param path
+	 * @return
+	 */
 	public XSSFWorkbook getXSSFWorkbookObject(String path)
 	{
 		try
@@ -344,6 +272,11 @@ public class Excel {
 		}
 	}
 	
+	/***
+	 * function to get HSSF Workbook's Object
+	 * @param path
+	 * @return
+	 */
 	public HSSFWorkbook getHSSFWorkbookObject(String path)
 	{
 		try
@@ -358,13 +291,19 @@ public class Excel {
 		}
 	}
 	
+	/***
+	 * function to get XSSF Sheet's Object
+	 * @param ExcelWBook
+	 * @param sheet
+	 * @return
+	 */
 	public XSSFSheet getXSSFSheetObject(XSSFWorkbook ExcelWBook, String sheet)
 	{
-		// if sheet variable is number then it will consider this and if it is String then it will also consider
-		// Make sure sheet number should NOT be ZERO.
-		int sheetNo=-1;
+		/*It will consider both whether sheet variable is number or String*/
+		/*Make sure sheet number should NOT be ZERO.*/
+		int sheetNo = -1;
 		 try{
-			 sheetNo= Integer.parseInt(sheet)-1;
+			 sheetNo = Integer.parseInt(sheet)-1;
 		 	}catch(Exception e){}
 		try{
 			XSSFSheet ExcelWSheet;
@@ -381,13 +320,20 @@ public class Excel {
 		}
 	}
 	
+	/***
+	 * function to get HSSF Sheet's Object
+	 * @param ExcelWBook
+	 * @param sheet
+	 * @return
+	 */
 	public HSSFSheet getHSSFSheetObject(HSSFWorkbook ExcelWBook, String sheet)
 	{
 		
-		// if sheet variable is number then it will consider this and if it is String then it will also consider
-		int sheetNo=-1;
+		/*It will consider both whether sheet variable is number or String*/
+		/*Make sure sheet number should NOT be ZERO.*/
+		int sheetNo = -1;
 		 try{
-			 sheetNo= Integer.parseInt(sheet)-1;
+			 sheetNo = Integer.parseInt(sheet)-1;
 		 }catch(Exception e){
 		 }
 		try{
@@ -405,6 +351,13 @@ public class Excel {
 		}
 	}
 	
+	/***
+	 * function to get Test Data
+	 * @param fileName
+	 * @param SheetName
+	 * @param testID
+	 * @return
+	 */
 	public ArrayList<String> getTestData(String fileName, String SheetName, String testID)
 	{
 		ArrayList<String> mapData = new ArrayList<String>();
@@ -412,7 +365,7 @@ public class Excel {
 		{
 			try
 			{
-				// Create object for sheet
+				/*Create object for sheet*/
 //				XSSFSheet MasterSheet = new XSSFWorkbook(new FileInputStream(new File(xml.readTagVal("MASTEREXCELPATH")))).getSheetAt(0);
 				XSSFSheet MasterSheet = getXSSFSheetObject(getXSSFWorkbookObject(fileName), SheetName);
 				
@@ -421,18 +374,18 @@ public class Excel {
 					Row row;
 					Cell cell = null;
 					
-					//will get number of columns
+					/*Get total number of used columns*/
 					int numOfColumns = MasterSheet.getRow(0).getLastCellNum();
 					
-					//loop will perform on rows
-					// we are starting rom 1 as 0 is headers of row.
+					/*loop for rows starting from 1 as 0 is header of row*/
 					for(int counter =1; counter<=MasterSheet.getLastRowNum(); counter ++)
 					{
 						row = MasterSheet.getRow(counter);
 						if(row.getCell(0).getStringCellValue().equalsIgnoreCase(testID))
 						{
 							String val ="";
-							//loop will perform on columns
+							
+							/*loop for columns*/
 							for(int colCounter = 1 ; colCounter<numOfColumns; colCounter++)
 							{
 								cell = row.getCell(colCounter);
@@ -453,8 +406,7 @@ public class Excel {
 //						map.put(row.getCell(0).getStringCellValue(), mapData);
 						}
 					}
-				}  //End if
-//				System.out.println(map);
+				}
 			}
 			catch(Exception e)
 			{
@@ -464,29 +416,11 @@ public class Excel {
 		return mapData;
 	}
 	
-//	public ArrayList<String> getSheetNames(String path)
-//	{
-//		ArrayList<String> sheetnames = new ArrayList<String>();
-//		Object workbookObj;
-//		if((FilenameUtils.getExtension(path)).equalsIgnoreCase("xlsx"))
-//		{
-//			XSSFWorkbook WRKOBJ = getXSSFWorkbookObject(path);
-//			WRKOBJ.getSheet("abc");
-//		}
-//		else if((FilenameUtils.getExtension(path)).equalsIgnoreCase("xls"))
-//		{
-//			HSSFWorkbook WRKOBJ = getHSSFWorkbookObject(path);
-//			WRKOBJ.getSheet(arg0)
-//		}
-//		for(int counter =0; counter<=getNumberOfSheets(path); counter++)
-//		{
-//			sheetnames = WRKOBJ.
-//		}
-//		
-//		return null;
-//		
-//	}
-	
+	/***
+	 * function to get Total Number of sheets in a Workbook
+	 * @param path
+	 * @return
+	 */
 	public int getNumberOfSheets(String path)
 	{
 		int numOfSheets = 0;
@@ -503,20 +437,12 @@ public class Excel {
 		}
 		return numOfSheets;
 	}
-	
-	public void readTestData()
-	{
-		
-	}
 
 	/***
-	 *@description getCellValue Function to get Cell value from the specified Excel
-	 * 
-	 * @author Nitish Aggarwal
-	 * 
-	 * @param rowValue - double
-	 * @param columnValue - String
-	 * @return cellValue - String
+	 * function to get Cell value from the specified Excel
+	 * @param rowValue
+	 * @param columnValue
+	 * @return cellValue
 	 * @throws Exception
 	 */
 	@SuppressWarnings("resource")
@@ -542,14 +468,11 @@ public class Excel {
     }
 	
 	/***
-	 *@description output Function to return Cell value according to specified Row and Column
-	 * 
-	 * @author Nitish Aggarwal
-	 * 
+	 * function to return Cell value according to specified Row and Column 
 	 * @param sheet	- XSSFSheet
-	 * @param rowNumber - int
-	 * @param colNumber - int
-	 * @return variableValue - String
+	 * @param rowNumber
+	 * @param colNumber
+	 * @return variableValue
 	 */
 	private String output(XSSFSheet sheet, int rowNumber, int colNumber) {
 		DataFormatter df 	 	= 	new DataFormatter();
@@ -561,13 +484,10 @@ public class Excel {
     }
 	
 	/***
-	 *@description getRowNumber Function to find Row number according to the Search value specified
-	 * 
-	 * @author Nitish Aggarwal
-	 * 
-	 * @param sheet	- XSSFSheet
-	 * @param searchValue - double
-	 * @return row.getRowNum() - int
+	 * function to find Row number according to the Search value specified
+	 * @param sheet
+	 * @param searchValue
+	 * @return row.getRowNum()
 	 */
 	@SuppressWarnings("deprecation")
 	private int getRowNumber(XSSFSheet sheet, String searchValue) {
@@ -593,13 +513,10 @@ public class Excel {
 	}
 
 	/***
-	 *@description getColumnNumber Function to find Column number according to the Search value specified
-	 * 
-	 * @author Nitish Aggarwal
-	 * 
-	 * @param sheet	- XSSFSheet
-	 * @param searchValue - String
-	 * @return cell.getColumnIndex() - int
+	 * function to find Column number according to the Search value specified
+	 * @param sheet
+	 * @param searchValue
+	 * @return cell.getColumnIndex()
 	 */
 	@SuppressWarnings("deprecation")
 	private int getColumnNumber(XSSFSheet sheet, String searchValue) {
@@ -616,12 +533,9 @@ public class Excel {
 	}
 	
 	/***
-	 *@description getTestCaseData Function to get Test Data of the specified row
-	 * 
-	 * @author Nitish Aggarwal
-	 * 
-	 * @param rowValue	- double
-	 * @return excelData - LinkedHashMap<String, String>
+	 * function to get Test Data of the specified row
+	 * @param rowValue
+	 * @return excelData
 	 * @throws Exception
 	 */
 	public LinkedHashMap<String, String> getTestCaseData(String rowValue) throws Exception{

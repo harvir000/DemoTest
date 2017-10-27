@@ -1,42 +1,41 @@
 package com.VTB.Pages;
 
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import com.VTB.Utils.Excel;
-import com.VTB.Utils.JavaScriptExecuterUtility;
+import com.VTB.Utils.BrowserActions;
 import com.VTB.Utils.Reporting;
 
-import businessFunction.FunctionBank;
 
 public class VTBApplicantSelectionPage {
 	
 	WebDriver driver;
-	Actions action;
-	JavascriptExecutor jse;
-	Excel objExcel;
-	WebDriverWait wait;
 	Reporting report;
-	JavaScriptExecuterUtility jsExecuter;
-	//FunctionBank funbank;
+	BrowserActions browserAction;
+	String imgPath = "";
 	
-	/*Constructor*/
+	/***
+	 * Constructor
+	 */
+	
 	public VTBApplicantSelectionPage(WebDriver driver,Reporting report){
-		this.driver=driver;
-	    this.report = report;
-	    //Initialise Element
-	    PageFactory.initElements(driver, this);
-	    jsExecuter = new JavaScriptExecuterUtility(driver);
-	    //funbank = new FunctionBank(driver);
+		this.driver = driver;
+        this.report = report;
+        
+        /*Initialize Elements*/
+        PageFactory.initElements(driver, this);
+        
+        browserAction = new BrowserActions(driver, report);
+        imgPath = report.imagePath;
    }
 
-	/*Locators*/
+	/***
+	 * Locators
+	 */
+	
 	@FindBy(how = How.CSS, using = "#loginforuser1")
 	private WebElement user1LoginButton;
 	
@@ -49,24 +48,43 @@ public class VTBApplicantSelectionPage {
 	@FindBy(how = How.CSS, using = "#signupforuser2")
 	private WebElement user2SignupButton;
 	
-	/*Methods*/
+	@FindBy(how = How.CSS, using = "#signupcontinue")
+	private WebElement continueSecurelyButton;
+	
+	/***
+	 * Methods
+	 */
+	
+	/*Select User1 Login Button*/
 	public void clickOnUser1LoginButton(){
-		jsExecuter.clickOnElement(user1LoginButton);
+		browserAction.WaittoPageLoad();
+		browserAction.scrollToElement(user1LoginButton);
+		browserAction.clickJS(user1LoginButton);
 	}
 	
+	/*Select User1 SignUp Button*/
 	public void clickOnUser1SignupButton(){
-		jsExecuter.clickOnElement(user1SignupButton);
-//		funbank.clickOnElement(user1SignupButton);
+		browserAction.WaittoPageLoad();
+		browserAction.scrollToElement(user1SignupButton);
+		browserAction.clickJS(user1SignupButton);
 	}
 	
+	/*Select User2 Login Button*/
 	public void clickOnUser2LoginButton(){
-		jsExecuter.clickOnElement(user2LoginButton);
-//		funbank.clickOnElement(user2LoginButton);
+		browserAction.scrollToElement(user2LoginButton);
+		browserAction.clickJS(user2LoginButton);
 	}
 	
+	/*Select User2 SignUp Button*/
 	public void clickOnUser2SignupButton(){
-		jsExecuter.clickOnElement(user2SignupButton);
-//		funbank.clickOnElement(user2SignupButton);
+		browserAction.scrollToElement(user2SignupButton);
+		browserAction.clickJS(user2SignupButton);
+	}
+	
+	/*Selecting Continue Securely*/
+	public void clickOnContinueSecurely() {
+		browserAction.scrollToElement(continueSecurelyButton);
+		browserAction.clickJS(continueSecurelyButton);
 	}
 	
 }

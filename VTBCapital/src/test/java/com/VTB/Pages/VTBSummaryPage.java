@@ -18,17 +18,25 @@ public class VTBSummaryPage {
 	BrowserActions browserAction;
 	String imgPath = "";
 	
-	/*Constructor*/
+	/***
+	 * Constructor
+	 */
+	
 	public VTBSummaryPage(WebDriver driver,Reporting report){
-		this.driver=driver;
-	    this.report = report;
-	    //Initialise Element
-	    PageFactory.initElements(driver, this);
-	    browserAction = new BrowserActions(driver, report);
-	    imgPath = report.imagePath;
+		this.driver = driver;
+        this.report = report;
+        
+        /*Initialize Elements*/
+        PageFactory.initElements(driver, this);
+        
+        browserAction = new BrowserActions(driver, report);
+        imgPath = report.imagePath;
    }
 
-	/*Locators*/
+	/***
+	 * Locators
+	 */
+	
 	@FindBy(how = How.CSS, using = "a[href='/sites/ntw/flow-1-review/container/showres.updateAOPAnswersController.do#personal_details']")
 	private WebElement editPersonalDetailsLink;
 	
@@ -71,8 +79,11 @@ public class VTBSummaryPage {
 	@FindBy(how = How.XPATH, using = "(//button[@class='btn btn-default cta2 switch-verification-code-btn'])[1]")
 	private WebElement switchVerificationMethodButton;
 	
-	/*Methods*/
+	/***
+	 * Methods
+	 */
 	
+	/*Set Identity Preference i.e. Mobile or Email*/
 	public void setIdentityPreference(LinkedHashMap <String,String> testCaseData){
 		try {
 			Thread.sleep(1000);
@@ -86,11 +97,20 @@ public class VTBSummaryPage {
 		}
 	}
 	
+	/*Set Verification Code*/
 	public void setVerificationCodeField() throws InterruptedException {
 		browserAction.waitForElement(verificationCodeField);
 		browserAction.setText(verificationCodeField, "1234", imgPath, "Code has been entered");
 	}
 	
+	public void clickOnContinueSecurely() throws InterruptedException {
+		browserAction.WaittoPageLoad();
+		browserAction.waitForElement(continueSecurelyButton);
+		browserAction.scrollToElement(continueSecurelyButton);
+		browserAction.clickJS(continueSecurelyButton);
+	}
+	
+	/*Set OTP Details*/
 	public void enterOTPDetails(LinkedHashMap <String,String> testCaseData) throws InterruptedException {
 		
 		browserAction.WaittoPageLoad();
@@ -99,7 +119,7 @@ public class VTBSummaryPage {
 		setIdentityPreference(testCaseData);
 		browserAction.ScrollAndClickOnElement(sendMyCodeButton, imgPath, "Send my Code button has been selected");
 		setVerificationCodeField();
-		browserAction.ScrollAndClickOnElement(continueSecurelyButton, imgPath, "Continue Securely has been selected");
+		clickOnContinueSecurely();
 	}
 	
 }

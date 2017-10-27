@@ -1,11 +1,9 @@
 package com.VTB.Utils;
 
 import java.io.File;
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.UUID;
 
 import org.apache.maven.surefire.shade.org.apache.maven.shared.utils.io.FileUtils;
 import org.openqa.selenium.JavascriptExecutor;
@@ -13,7 +11,6 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.RemoteWebDriver;
 
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
@@ -22,7 +19,7 @@ import com.relevantcodes.extentreports.LogStatus;
 public class Reporting  {
 
 	public String folderName;
-	public String ImagesFolder;
+	public String screenshotsFolder;
 	public String folder;
 	public String folderpath;
 	WebDriver driver;
@@ -31,25 +28,38 @@ public class Reporting  {
 	public ExtentTest test;
 	DateFormat dateFormat = new SimpleDateFormat("dd_MMM_yyyy__hh_mm_ss_SSaa");
 	Date date = new Date();
-	//public EnvironmentVars envVar = new EnvironmentVars();
 	
+	/***
+	 * Default Constructor
+	 */
+	public Reporting()
+	{	}
+	
+	/***
+	 * Parameterized Constructor
+	 * @param driver
+	 * @param Browserip
+	 * @throws Exception
+	 * @throws InterruptedException
+	 */
 	public Reporting(WebDriver driver, String Browserip) throws Exception, InterruptedException 
 	{
 		this.driver = driver;
 		Thread.sleep(Integer.parseInt(Thread.currentThread().getName()+"000"));
-		createFolder();
-//		System.out.println("Reporting calss :"+envVar.browsername );
+		createFolder(Browserip);
 		extentReports = new ExtentReports(folderpath + "\\"+Browserip +"-" + dateFormat.format(date) + ".html", false);
 		extentReports.loadConfig(new File("extent-config.xml"));
 	}
-	
-	public Reporting()
-	{	}
     
-	public String createFolder() 
+	/***
+	 * function to create Reporting and Screenshot folders
+	 * @param Browserip
+	 * @return
+	 */
+	public String createFolder(String Browserip) 
 	{
 		String basePath = new File("").getAbsolutePath();
-		String Uniqueid = generateCurrentDateNumber();
+		String Uniqueid = generateCurrentDateNumber(Browserip);
 		folderName = "";
 		try
 		{
@@ -61,19 +71,19 @@ public class Reporting  {
 	                System.out.println("Directory is created!");
 	            } 
 	        }
-	        folderName = basePath+"\\test-output\\"+Uniqueid;
+	        folderName = basePath + "\\test-output\\" + Uniqueid;
 	        file = new File(folderName);
 	        if (file.mkdir()) 
 	        {
 	            System.out.println("Run result directory '"+folderName+"' is created!");
-	            file = new File(folderName+"\\Images");
+	            file = new File(folderName+"\\Screenshots");
 	            if (file.mkdir()) 
 	            {
-	                System.out.println(file+" 'Images' directory is created!");
-	                ImagesFolder=folderName+"\\Images";
+	                System.out.println(file+" 'Screenshots' directory is created!");
+	                screenshotsFolder = folderName+"\\Screenshots";
 	            }
 	        }
-	        else 
+	        else
 	        {
 	            System.out.println("Failed to create sub-directory!");
 	        }
@@ -87,32 +97,49 @@ public class Reporting  {
 		setfolder(Uniqueid);
 	    return folderName;   
 	}
-
+	
+	/***
+	 * function to set Reporting Folder Path
+	 * @param folderpath
+	 */
 	public void setFolderpath(String folderpath)
 	{
 		this.folderpath = folderpath;
-		imagePath = folderpath+"\\Images\\";
+		imagePath = folderpath+"\\Screenshots\\";
 	}
 	
+	/***
+	 * function to set Folder
+	 * @param foldername
+	 */
 	public void setfolder(String foldername)
 	{
 		this.folder = foldername;
 	}
 	
-	private String generateCurrentDateNumber() 
+	/***
+	 * function to generate Current Date Number 
+	 * which can be used to create Reporting Folder
+	 * @param Browserip
+	 * @return
+	 */
+	private String generateCurrentDateNumber(String Browserip) 
 	{
-		
 		// Following method as thread are hitting at the same time hence folder not get created.
-		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		Date dNow = new Date();
-		SimpleDateFormat sFrmt = new SimpleDateFormat("yyyyMMddhhmmss");
-		return sFrmt.format(dNow)+Long.toString(timestamp.getTime());
-//		return sFrmt.format(dNow);
+		SimpleDateFormat sFrmt = new SimpleDateFormat("ddMMMyyyy_hhmmss_SSaa");
+		String folderName = sFrmt.format(dNow) + "_" + Browserip;
+		return folderName;
 	}
 	
+	/***
+	 * function to get screenshot from Screenshots folder
+	 * @param fileName
+	 * @param element
+	 * @return
+	 */
 	public String getscreenshot(String fileName, WebElement element) 
 	{
-		// Thread.sleep(1000);
 		DateFormat dateFormat = new SimpleDateFormat("dd_MMM_yyyy__hh_mm_ss_SSaa");
 		Date date = new Date();
 		String screenshotfile = dateFormat.format(date) + ".png";
@@ -122,15 +149,13 @@ public class Reporting  {
 			{
 				JavascriptExecutor javascript = (JavascriptExecutor) this.driver;
 				javascript.executeScript("arguments[0].style.border='3px solid red'", element);
-				// }Change - Moved Screenshot Command out of bracket
 				FileUtils.copyFile(((TakesScreenshot) this.driver).getScreenshotAs(OutputType.FILE),
 						new File(fileName+screenshotfile));
-//				javascript.executeScript("arguments[0].style.border='3px solid black'", element);
 				javascript.executeScript("arguments[0].style.border='3px solid red'", element);
 			} 
 			else 
 			{
-				JavascriptExecutor javascript = (JavascriptExecutor) this.driver;
+				//JavascriptExecutor javascript = (JavascriptExecutor) this.driver;
 				FileUtils.copyFile(((TakesScreenshot) this.driver).getScreenshotAs(OutputType.FILE),
 						new File(fileName+screenshotfile));
 			}
@@ -140,7 +165,7 @@ public class Reporting  {
 
 			try
 			{
-				JavascriptExecutor javascript = (JavascriptExecutor) this.driver;
+				//JavascriptExecutor javascript = (JavascriptExecutor) this.driver;
 				FileUtils.copyFile(((TakesScreenshot) this.driver).getScreenshotAs(OutputType.FILE),
 						new File(fileName+screenshotfile));
 			}
@@ -150,10 +175,18 @@ public class Reporting  {
 			}
 			e.printStackTrace();
 		}
-		return "./../"+folder+"/Images/" + screenshotfile;
+		return "./../"+folder+"/Screenshots/" + screenshotfile;
 	}
-
-	public void extentReportlogSteps_Update(LogStatus status, String stepname, String Details, String filenamePath,WebElement element) {
+	
+	/***
+	 * function to log step into the extent report
+	 * @param status
+	 * @param stepname
+	 * @param Details
+	 * @param filenamePath
+	 * @param element
+	 */
+	public void logStepToReport(LogStatus status, String stepname, String Details, String filenamePath,WebElement element) {
 		highlightWebElement(driver, element);
 		if(!filenamePath.equalsIgnoreCase(""))
 		{
@@ -171,31 +204,23 @@ public class Reporting  {
 		}
 		extentReports.flush();
 	}
-//	public void extentReportlogSteps_Update(LogStatus status, String stepname, String Details, String filenamePath,WebElement element) 
-//	{
-//			highlightWebElement(driver, element);
-//			try {
-//			test.log(status, stepname, Details + "<div align='right' style='float:right'><a href="+ getscreenshot(filenamePath, element) + ">Screenshot</a></div>");
-//			}
-//			catch(Exception e)
-//			{
-//				test.log(status, stepname, Details + "<div align='right' style='float:right'>Unable to take screenshot</div>");	
-//			}
-//			extentReports.flush();
-//	}
+	
+	/***
+	 * function to get Image File Location
+	 * @return
+	 */
 	public String getImageFileLocation() 
 	{
 		return imagePath.replace("test-output/", "");
 	}
 	
 	/***
-	 * function to highlight WebElement
+	 * function to highlight Element
 	 * @param driver
 	 * @param element
 	 */
 	public void highlightWebElement(WebDriver driver, WebElement element){
 		JavascriptExecutor js	=	(JavascriptExecutor)driver; 
-
 		js.executeScript("arguments[0].setAttribute('style', 'background: yellow; border: 2px solid red;');", element);
 		try {
 			Thread.sleep(100);
@@ -203,7 +228,6 @@ public class Reporting  {
 		catch (InterruptedException e) {
 			System.out.println(e.getMessage());
 		} 
-
 		js.executeScript("arguments[0].setAttribute('style','border: solid 2px white');", element); 
 	}
 	

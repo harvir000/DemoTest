@@ -5,16 +5,18 @@ import com.VTB.TestCases.*;
 
 public class FactoryMethod{
 	
-	// Here all the Module classes should be mentioned 
-	// It will return object of class.
+	/***
+	 * Function in which all the Module classes should be mentioned
+	 * and return the object of that selected Module class
+	 * @param ModuleName
+	 * @return
+	 */
 	public TCSelection testModulesSelection(String ModuleName)
 	{
-		if(ModuleName.equalsIgnoreCase("BookingModule"))
-			return new BookingModule();
+		if(ModuleName.equalsIgnoreCase("AOPModule"))
+			return new AOPModule();
 		else if(ModuleName.equalsIgnoreCase("TicketingModule"))
 			return new TicketingModule();
-//		else if(ModuleName.equalsIgnoreCase("Module3"))
-//			return new Module3();
 		else
 			return null;
 	}

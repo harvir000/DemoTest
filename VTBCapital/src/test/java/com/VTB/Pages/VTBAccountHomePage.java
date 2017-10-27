@@ -19,18 +19,26 @@ public class VTBAccountHomePage {
 	BrowserActions browserAction;
 	String imgPath = "";
 	
-	/*Constructor*/
+	/***
+	 * Constructor
+	 */
+	
 	public VTBAccountHomePage(WebDriver driver,Reporting report)
 	{
-		this.driver=driver;
+		this.driver = driver;
         this.report = report;
-        //Initialise Element
+        
+        /*Initialize Elements*/
         PageFactory.initElements(driver, this);
+        
         browserAction = new BrowserActions(driver, report);
         imgPath = report.imagePath;
    }
 
-	/*Locators*/
+	/***
+	 * Locators
+	 */
+	
 	@FindBy(how = How.XPATH, using = "(//button[@class='module-button module-button-green-hov bright-green pull-right'])[1]")
 	private WebElement findOutMoreButton;
 	
@@ -59,8 +67,11 @@ public class VTBAccountHomePage {
 	@FindBy(xpath = "//button[@id='applyNow']")
 	private WebElement applyNowButton;
 	
-   /*Methods*/
+	/***
+	 * Methods
+	 */
 	
+	/*Set Account Type i.e. Individual or Joint Account*/
 	public void chooseAccountType(LinkedHashMap <String,String> testCaseData) {
 		try {
 			Thread.sleep(2000);
@@ -74,6 +85,7 @@ public class VTBAccountHomePage {
 		}
 	}
 	
+	/*Set Customer Type i.e. New, Existing, Both New, Both Existing or One New and One Existing*/
 	public void chooseCustomerType(LinkedHashMap <String,String> testCaseData)
 	{
 		if (testCaseData.get("CustomerType").equalsIgnoreCase("New Customer"))
@@ -101,7 +113,6 @@ public class VTBAccountHomePage {
 		browserAction.WaittoPageLoad();
 		
 	/*Selecting AccountType and CustomerType*/
-		
 		browserAction.ScrollAndClickOnElement(findOutMoreButton, imgPath, "Selecting Find out More");
 		chooseAccountType(testCaseData);
 		chooseCustomerType(testCaseData);
