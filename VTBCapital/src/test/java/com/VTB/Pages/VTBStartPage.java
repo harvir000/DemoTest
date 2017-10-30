@@ -149,5 +149,22 @@ public class VTBStartPage {
 		browserAction.scrollToElement(startApplicationButton);
 		browserAction.clickJS(startApplicationButton);
 	}
+	
+	/**
+	 * to verify all eligible criteria is selected 
+	 */
+	
+	public boolean verifyEligibilityCriteria()
+	{
+		
+		boolean dataToBeReturn=false;
+		if(ageEligibilityYesRadioButton.isSelected()||residentEligibilityYesRadioButton.isSelected()
+				||fatcaEligibilityYesRadioButton.isSelected()||currentAccountEligibilityYesRadioButton.isSelected())
+		{
+			dataToBeReturn=true;
+		}
+		
+		return dataToBeReturn;
+	}
 
 }

@@ -59,8 +59,9 @@ public class VTBCapitalHomePage {
 	
 	/*Choose Plan Type*/
 	public void choosePlan(LinkedHashMap <String,String> testCaseData) {
-		if (testCaseData.get("PlanType").equalsIgnoreCase("120 Days Notice Account")) {
-			browserAction.ScrollAndClickOnElement(interestRate1_60Button, imgPath, "Selecting 120 Days Notice Account");
+		report.assertThat(browserAction.verifyPageTitle("Home"), driver.getTitle(),"Home","VTB capital has been opened succesfully", "opened application has different Title");
+		if (testCaseData.get("PlanType").equalsIgnoreCase("120 Day Notice Account")) {
+			browserAction.ScrollAndClickOnElement(interestRate1_60Button, imgPath, "Selecting 120 Day Notice Account");
 		}else if (testCaseData.get("PlanType").equalsIgnoreCase("1 Year Fixed Term")) {
 			browserAction.ScrollAndClickOnElement(interestRate2_20Button, imgPath, "Selecting 1 Year Fixed Term");
 		}else if (testCaseData.get("PlanType").equalsIgnoreCase("2 Year Fixed Term")) {
@@ -73,7 +74,8 @@ public class VTBCapitalHomePage {
 	}
 	
 	/*Select Plan*/
-	public void selectPlanType(LinkedHashMap <String,String> testCaseData) {
+	public void selectPlanType(LinkedHashMap <String,String> testCaseData) 
+	{
 		browserAction.WaittoPageLoad();
 		choosePlan(testCaseData);
 	}

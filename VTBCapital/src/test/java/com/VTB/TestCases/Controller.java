@@ -66,9 +66,8 @@ public class Controller{
 			for(String value: values)
 			{
 				if(value.equalsIgnoreCase("Yes")||value.equalsIgnoreCase("Y"))
-				{
-					
-					driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+				{	
+//					driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
 					driver.navigate().to(new XMLReader(new File("config.xml").getAbsolutePath()).readTagVal("URL"));
 					handleSecurityCertificate();
 					browserAction.WaittoPageLoad();

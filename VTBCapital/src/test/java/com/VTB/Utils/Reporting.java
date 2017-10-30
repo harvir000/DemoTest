@@ -28,13 +28,15 @@ public class Reporting  {
 	public ExtentTest test;
 	DateFormat dateFormat = new SimpleDateFormat("dd_MMM_yyyy__hh_mm_ss_SSaa");
 	Date date = new Date();
-	
+
 	/***
 	 * Default Constructor
 	 */
 	public Reporting()
-	{	}
-	
+	{
+
+	}
+
 	/***
 	 * Parameterized Constructor
 	 * @param driver
@@ -50,7 +52,7 @@ public class Reporting  {
 		extentReports = new ExtentReports(folderpath + "\\"+Browserip +"-" + dateFormat.format(date) + ".html", false);
 		extentReports.loadConfig(new File("extent-config.xml"));
 	}
-    
+
 	/***
 	 * function to create Reporting and Screenshot folders
 	 * @param Browserip
@@ -64,40 +66,40 @@ public class Reporting  {
 		try
 		{
 			File file = new File(basePath+"\\test-output");
-	        if (!file.exists()) 
-	        {
-	            if (file.mkdir()) 
-	            {
-	                System.out.println("Directory is created!");
-	            } 
-	        }
-	        folderName = basePath + "\\test-output\\" + Uniqueid;
-	        file = new File(folderName);
-	        if (file.mkdir()) 
-	        {
-	            System.out.println("Run result directory '"+folderName+"' is created!");
-	            file = new File(folderName+"\\Screenshots");
-	            if (file.mkdir()) 
-	            {
-	                System.out.println(file+" 'Screenshots' directory is created!");
-	                screenshotsFolder = folderName+"\\Screenshots";
-	            }
-	        }
-	        else
-	        {
-	            System.out.println("Failed to create sub-directory!");
-	        }
+			if (!file.exists()) 
+			{
+				if (file.mkdir()) 
+				{
+					System.out.println("Directory is created!");
+				} 
+			}
+			folderName = basePath + "\\test-output\\" + Uniqueid;
+			file = new File(folderName);
+			if (file.mkdir()) 
+			{
+				System.out.println("Run result directory '"+folderName+"' is created!");
+				file = new File(folderName+"\\Screenshots");
+				if (file.mkdir()) 
+				{
+					System.out.println(file+" 'Screenshots' directory is created!");
+					screenshotsFolder = folderName+"\\Screenshots";
+				}
+			}
+			else
+			{
+				System.out.println("Failed to create sub-directory!");
+			}
 		}
 		catch(Exception e)
 		{
 			folderName = "";
 			System.out.println("Oops...there is something wrong while creating reporting folder(s).");
 		}
-	    setFolderpath(folderName);
+		setFolderpath(folderName);
 		setfolder(Uniqueid);
-	    return folderName;   
+		return folderName;   
 	}
-	
+
 	/***
 	 * function to set Reporting Folder Path
 	 * @param folderpath
@@ -107,7 +109,7 @@ public class Reporting  {
 		this.folderpath = folderpath;
 		imagePath = folderpath+"\\Screenshots\\";
 	}
-	
+
 	/***
 	 * function to set Folder
 	 * @param foldername
@@ -116,7 +118,7 @@ public class Reporting  {
 	{
 		this.folder = foldername;
 	}
-	
+
 	/***
 	 * function to generate Current Date Number 
 	 * which can be used to create Reporting Folder
@@ -131,7 +133,7 @@ public class Reporting  {
 		String folderName = sFrmt.format(dNow) + "_" + Browserip;
 		return folderName;
 	}
-	
+
 	/***
 	 * function to get screenshot from Screenshots folder
 	 * @param fileName
@@ -177,7 +179,34 @@ public class Reporting  {
 		}
 		return "./../"+folder+"/Screenshots/" + screenshotfile;
 	}
-	
+
+
+
+
+
+
+
+	public String getscreenshot(String fileName) 
+	{
+		DateFormat dateFormat = new SimpleDateFormat("dd_MMM_yyyy__hh_mm_ss_SSaa");
+		Date date = new Date();
+		String screenshotfile = dateFormat.format(date) + ".png";
+		try
+		{
+			//JavascriptExecutor javascript = (JavascriptExecutor) this.driver;
+			FileUtils.copyFile(((TakesScreenshot) this.driver).getScreenshotAs(OutputType.FILE),
+					new File(fileName+screenshotfile));
+		}
+		catch(Exception e1)
+		{
+			System.out.println(e1.getMessage());
+		}
+
+		return "./../"+folder+"/Screenshots/" + screenshotfile;
+	}
+
+
+
 	/***
 	 * function to log step into the extent report
 	 * @param status
@@ -204,7 +233,7 @@ public class Reporting  {
 		}
 		extentReports.flush();
 	}
-	
+
 	/***
 	 * function to get Image File Location
 	 * @return
@@ -213,7 +242,7 @@ public class Reporting  {
 	{
 		return imagePath.replace("test-output/", "");
 	}
-	
+
 	/***
 	 * function to highlight Element
 	 * @param driver
@@ -230,5 +259,61 @@ public class Reporting  {
 		} 
 		js.executeScript("arguments[0].setAttribute('style','border: solid 2px white');", element); 
 	}
-	
+
+	/**
+	 * function to assert Expected condition with the Actual Condition
+	 */
+	public void assertThat(boolean status, String actual, String expected,String passMessage, String failMessage)
+	{
+		if(!status)
+			test.log(LogStatus.FAIL, "<font color=\"red\">"+failMessage + "<div align='right' style='float:right'><a href="+ getscreenshot(imagePath) + ">Screenshot</a></div>"
+					+ "<br><b>Expected: </b>"+expected+"</br>"
+					+ "<br><b>Actual:</b> "+actual+"</br>");
+		else
+		{
+			test.log(LogStatus.PASS, passMessage + "<div align='right' style='float:right'><a href="+ getscreenshot(imagePath) + ">Screenshot</a></div>"
+					+ "<br><b>Expected: </b>"+expected+"</br>"
+					+ "<br><b>Actual:</b> "+actual+"</br>");
+		}
+
+
+	}
+
+	// assert that overloaded method
+	public void assertThat(boolean status,String passMessage, String failMessage)
+	{
+		if(!status)
+			test.log(LogStatus.FAIL, failMessage + "<div align='right' style='float:right'><a href="+ getscreenshot(imagePath) + ">Screenshot</a></div>");
+		else
+		{
+			test.log(LogStatus.PASS, passMessage + "<div align='right' style='float:right'><a href="+ getscreenshot(imagePath) + ">Screenshot</a></div>");
+		}
+
+
+	}
+
+
+	/**
+	 * to log message in report 
+	 */
+
+	public void message(String message)
+	{
+		test.log(LogStatus.INFO, message);
+	}
+
+	/**
+	 *  to set set actual and expected
+	 */
+
+	public void setActualExpectedValue(String actual, String expected)
+	{
+
+		message("<b>Expected: </b>"+expected);
+		message("<b>Actual: </b>"+actual);
+
+	}
+
+
+
 }

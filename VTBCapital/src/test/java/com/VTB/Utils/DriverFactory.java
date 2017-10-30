@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.UnexpectedAlertBehaviour;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.remote.BrowserType;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -109,12 +111,20 @@ public class DriverFactory {
 				driver = new RemoteWebDriver(new URL(ipPort.get(Integer.parseInt(name)-1)), capability);
 				driver.manage().window().maximize();
 				break;
-
 			case FIREFOX:
 				SelectedBrowserName="Mozilla FireFox";
-				capability=DesiredCapabilities.firefox();
+				
+				capability = DesiredCapabilities.firefox();
+				
+				FirefoxProfile profile = new FirefoxProfile();
+				profile.setAcceptUntrustedCertificates(true); 
+				profile.setAssumeUntrustedCertificateIssuer(false);
+				
 				capability.setPlatform(Platform.ANY);
+				capability.setCapability(FirefoxDriver.PROFILE, profile);
+				
 				driver = new RemoteWebDriver(new URL(ipPort.get(Integer.parseInt(name)-1)), capability);
+				
 				driver.manage().window().maximize();
 				break;
 

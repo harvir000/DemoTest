@@ -90,10 +90,14 @@ public class VTBAccountHomePage {
 	{
 		if (testCaseData.get("CustomerType").equalsIgnoreCase("New Customer"))
 		{
+			
 			browserAction.clickJS(newCustomerRadioButton, imgPath, "Selecting New Customer");
+			report.assertThat(newCustomerRadioButton.isSelected(), newCustomerRadioButton.isSelected()+"", "true", "new customer button is selected successfully", "new customer button is not selected successfully");
 		}
-		else if (testCaseData.get("CustomerType").equalsIgnoreCase("Existing Customer")) {
+		else if (testCaseData.get("CustomerType").equalsIgnoreCase("Existing Customer")) 
+		{
 			browserAction.clickJS(existingCustomerRadioButton, imgPath, "Selecting Existing Customer");
+			report.assertThat(newCustomerRadioButton.isSelected(), newCustomerRadioButton.isSelected()+"", "true", "Existing Customer button is selected successfully", "Existing Customer button is not selected successfully");
 		}
 		else if (testCaseData.get("CustomerType").equalsIgnoreCase("Both New Customers")) {
 			browserAction.clickJS(bothNewCustomerRadioButton, imgPath, "Selecting both New Customers");
@@ -113,10 +117,13 @@ public class VTBAccountHomePage {
 		browserAction.WaittoPageLoad();
 		
 	/*Selecting AccountType and CustomerType*/
+		report.assertThat(browserAction.verifyPageTitle(testCaseData.get("PlanType")), driver.getTitle(),testCaseData.get("PlanType"), testCaseData.get("PlanType") + " page has been opened succesfully", testCaseData.get("PlanType") + " page has different Title");
 		browserAction.ScrollAndClickOnElement(findOutMoreButton, imgPath, "Selecting Find out More");
 		chooseAccountType(testCaseData);
 		chooseCustomerType(testCaseData);
 		browserAction.clickJS(applyNowButton);
 	}
+	
+	
 	
 }

@@ -29,7 +29,7 @@
 		<dependency>
     <groupId>io.appium</groupId>
     <artifactId>java-client</artifactId>
-    <version>5.0.0-BETA5</version>
+    <version>5.0.4</version>
 </dependency>
 	
   <dependency>
@@ -49,12 +49,14 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
+    
+    <!--don't use selenium dependency for this project appium dependency will take care every thing -->
+    <!-- <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-java</artifactId>
-      <version>3.6.0</version>
+      <version>3.1.0</version>
       <scope>test</scope>
-    </dependency>
+    </dependency> -->
     
     <dependency>
   	  <groupId>org.apache.poi</groupId>

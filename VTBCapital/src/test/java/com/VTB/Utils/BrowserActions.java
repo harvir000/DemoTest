@@ -161,17 +161,7 @@ public class BrowserActions {
 	 */
 	public void setText(WebElement element, String value, String imagePath, String message) {
 		try {
-			
-			/*if(driver.toString().contains("ANDROID"))
-			{
-			Actions action=new Actions(driver);
-			action.moveToElement(element).click().sendKeys(value).build().perform();
-			}
-			else
-			{*/
-
 			element.sendKeys(value);
-//			}
 			report.logStepToReport(LogStatus.INFO, "Text Entered", message, imagePath, element);
 		} catch (Exception e) {
 			report.logStepToReport(LogStatus.FAIL, "Text Entered", message, imagePath, element);
@@ -254,6 +244,14 @@ public class BrowserActions {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+		
+	}
+	
+	
+	public boolean verifyPageTitle(String title)
+	{
+		
+		return driver.getTitle().trim().contains(title);
 		
 	}
 
