@@ -179,13 +179,13 @@ public class Reporting  {
 		}
 		return "./../"+folder+"/Screenshots/" + screenshotfile;
 	}
-
-
-
-
-
-
-
+	
+	/***
+	 * Overloaded function to get screenshot from Screenshots folder
+	 * @param fileName
+	 * @param element
+	 * @return
+	 */
 	public String getscreenshot(String fileName) 
 	{
 		DateFormat dateFormat = new SimpleDateFormat("dd_MMM_yyyy__hh_mm_ss_SSaa");
@@ -204,8 +204,6 @@ public class Reporting  {
 
 		return "./../"+folder+"/Screenshots/" + screenshotfile;
 	}
-
-
 
 	/***
 	 * function to log step into the extent report
@@ -260,60 +258,63 @@ public class Reporting  {
 		js.executeScript("arguments[0].setAttribute('style','border: solid 2px white');", element); 
 	}
 
-	/**
+	/***
 	 * function to assert Expected condition with the Actual Condition
+	 * @param status
+	 * @param actual
+	 * @param expected
+	 * @param passMessage
+	 * @param failMessage
 	 */
 	public void assertThat(boolean status, String actual, String expected,String passMessage, String failMessage)
 	{
 		if(!status)
-			test.log(LogStatus.FAIL, "<font color=\"red\">"+failMessage + "<div align='right' style='float:right'><a href="+ getscreenshot(imagePath) + ">Screenshot</a></div>"
+			test.log(LogStatus.FAIL, "Verification Point", failMessage + "<div align='right' style='float:right'><a href="+ getscreenshot(imagePath) + ">Screenshot</a></div>"
 					+ "<br><b>Expected: </b>"+expected+"</br>"
 					+ "<br><b>Actual:</b> "+actual+"</br>");
 		else
 		{
-			test.log(LogStatus.PASS, passMessage + "<div align='right' style='float:right'><a href="+ getscreenshot(imagePath) + ">Screenshot</a></div>"
+			test.log(LogStatus.PASS, "Verification Point", passMessage + "<div align='right' style='float:right'><a href="+ getscreenshot(imagePath) + ">Screenshot</a></div>"
 					+ "<br><b>Expected: </b>"+expected+"</br>"
 					+ "<br><b>Actual:</b> "+actual+"</br>");
 		}
 
-
 	}
-
-	// assert that overloaded method
+	
+	/***
+	 * Overloaded function to assert Expected condition with the Actual Condition
+	 * @param status
+	 * @param passMessage
+	 * @param failMessage
+	 */
 	public void assertThat(boolean status,String passMessage, String failMessage)
 	{
 		if(!status)
-			test.log(LogStatus.FAIL, failMessage + "<div align='right' style='float:right'><a href="+ getscreenshot(imagePath) + ">Screenshot</a></div>");
+			test.log(LogStatus.FAIL, "Verification Point", failMessage + "<div align='right' style='float:right'><a href="+ getscreenshot(imagePath) + ">Screenshot</a></div>");
 		else
 		{
-			test.log(LogStatus.PASS, passMessage + "<div align='right' style='float:right'><a href="+ getscreenshot(imagePath) + ">Screenshot</a></div>");
+			test.log(LogStatus.PASS, "Verification Point", passMessage + "<div align='right' style='float:right'><a href="+ getscreenshot(imagePath) + ">Screenshot</a></div>");
 		}
-
-
 	}
-
-
-	/**
-	 * to log message in report 
+		
+	/***
+	 * function to log message in report
+	 * @param message
 	 */
-
 	public void message(String message)
 	{
 		test.log(LogStatus.INFO, message);
 	}
-
-	/**
-	 *  to set set actual and expected
+	
+	/***
+	 * function to set set actual and expected
+	 * @param actual
+	 * @param expected
 	 */
-
 	public void setActualExpectedValue(String actual, String expected)
 	{
-
 		message("<b>Expected: </b>"+expected);
 		message("<b>Actual: </b>"+actual);
-
-	}
-
-
+	}	
 
 }

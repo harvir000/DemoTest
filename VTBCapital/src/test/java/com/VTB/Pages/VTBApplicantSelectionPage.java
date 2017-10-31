@@ -20,7 +20,6 @@ public class VTBApplicantSelectionPage {
 	/***
 	 * Constructor
 	 */
-	
 	public VTBApplicantSelectionPage(WebDriver driver,Reporting report){
 		this.driver = driver;
         this.report = report;
@@ -55,33 +54,51 @@ public class VTBApplicantSelectionPage {
 	 * Methods
 	 */
 	
-	/*Select User1 Login Button*/
-	public void clickOnUser1LoginButton(){
+	/***
+	 * function to verify Applicant selection Page Title
+	 */
+	public void verifyApplicantSelectionPageTitle() {
 		browserAction.WaittoPageLoad();
+		report.assertThat(browserAction.verifyPageTitle("VTB Capital Direct | Apply | Applicant selection"), driver.getTitle(),"VTB Capital Direct | Apply | Applicant selection","VTB capital Start Page has been opened succesfully", "opened Page has different Title");
+	}
+	
+	/***
+	 * function to Select User1 Login Button
+	 */
+	public void clickOnUser1LoginButton(){
+		verifyApplicantSelectionPageTitle();
 		browserAction.scrollToElement(user1LoginButton);
 		browserAction.clickJS(user1LoginButton);
 	}
 	
-	/*Select User1 SignUp Button*/
+	/***
+	 * function to Select User1 SignUp Button
+	 */
 	public void clickOnUser1SignupButton(){
-		browserAction.WaittoPageLoad();
+		verifyApplicantSelectionPageTitle();
 		browserAction.scrollToElement(user1SignupButton);
 		browserAction.clickJS(user1SignupButton);
 	}
 	
-	/*Select User2 Login Button*/
+	/***
+	 * function to Select User2 Login Button
+	 */
 	public void clickOnUser2LoginButton(){
 		browserAction.scrollToElement(user2LoginButton);
 		browserAction.clickJS(user2LoginButton);
 	}
 	
-	/*Select User2 SignUp Button*/
+	/***
+	 * function to Select User2 SignUp Button
+	 */
 	public void clickOnUser2SignupButton(){
 		browserAction.scrollToElement(user2SignupButton);
 		browserAction.clickJS(user2SignupButton);
 	}
 	
-	/*Selecting Continue Securely*/
+	/***
+	 * function to Select Continue Securely
+	 */
 	public void clickOnContinueSecurely() {
 		browserAction.scrollToElement(continueSecurelyButton);
 		browserAction.clickJS(continueSecurelyButton);

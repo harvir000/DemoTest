@@ -21,7 +21,6 @@ public class VTBCapitalHomePage {
 	/***
 	 * Constructor
 	 */
-	
 	public VTBCapitalHomePage(WebDriver driver,Reporting report){
 		this.driver = driver;
         this.report = report;
@@ -52,31 +51,41 @@ public class VTBCapitalHomePage {
 	@FindBy(how = How.XPATH, using = "(//button[@class='module-button module-button-green-hov bright-green pull-right'])[5]")
 	private WebElement interestRate3_10Button;
 
-	
 	/***
 	 * Methods
 	 */
 	
-	/*Choose Plan Type*/
+	/***
+	 * function to Choose Plan Type
+	 * @param testCaseData
+	 */
 	public void choosePlan(LinkedHashMap <String,String> testCaseData) {
-		report.assertThat(browserAction.verifyPageTitle("Home"), driver.getTitle(),"Home","VTB capital has been opened succesfully", "opened application has different Title");
 		if (testCaseData.get("PlanType").equalsIgnoreCase("120 Day Notice Account")) {
-			browserAction.ScrollAndClickOnElement(interestRate1_60Button, imgPath, "Selecting 120 Day Notice Account");
+			browserAction.scrollToElement(interestRate1_60Button);
+			browserAction.clickJS(interestRate1_60Button);
 		}else if (testCaseData.get("PlanType").equalsIgnoreCase("1 Year Fixed Term")) {
-			browserAction.ScrollAndClickOnElement(interestRate2_20Button, imgPath, "Selecting 1 Year Fixed Term");
+			browserAction.scrollToElement(interestRate2_20Button);
+			browserAction.clickJS(interestRate2_20Button);
 		}else if (testCaseData.get("PlanType").equalsIgnoreCase("2 Year Fixed Term")) {
-			browserAction.ScrollAndClickOnElement(interestRate2_60Button, imgPath, "Selecting 2 Year Fixed Term");
+			browserAction.scrollToElement(interestRate2_60Button);
+			browserAction.clickJS(interestRate2_60Button);
 		}else if (testCaseData.get("PlanType").equalsIgnoreCase("5 Year Tracker")) {
-			browserAction.ScrollAndClickOnElement(interestRate3_90Button, imgPath, "Selecting 5 Year Tracker");
+			browserAction.scrollToElement(interestRate3_90Button);
+			browserAction.clickJS(interestRate3_90Button);
 		} else {
-			browserAction.ScrollAndClickOnElement(interestRate3_10Button, imgPath, "Selecting 3 Year Fixed Term");
+			browserAction.scrollToElement(interestRate3_10Button);
+			browserAction.clickJS(interestRate3_10Button);
 		}
 	}
 	
-	/*Select Plan*/
-	public void selectPlanType(LinkedHashMap <String,String> testCaseData) 
-	{
+	/***
+	 * function to Select Plan Type
+	 * @param testCaseData
+	 */
+	public void selectPlanType(LinkedHashMap <String,String> testCaseData) {
 		browserAction.WaittoPageLoad();
+//		report.assertThat(browserAction.verifyPageTitle("Home"), driver.getTitle(),"Home","VTB capital has been opened succesfully", "opened application has different Title");
+		report.assertThat(browserAction.verifyPageTitle("Home"),"VTB Capital Home Page has been opened succesfully", "VTB Capital Home Page application has different Title");
 		choosePlan(testCaseData);
 	}
 	

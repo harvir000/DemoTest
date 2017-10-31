@@ -3,6 +3,8 @@ package com.VTB.Utils;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.UnexpectedAlertBehaviour;
@@ -20,8 +22,11 @@ import io.appium.java_client.remote.MobileCapabilityType;
 public class DriverFactory {
 
 	public  WebDriver driver;
-	static public ArrayList <String>browser = new ArrayList();
-	static public ArrayList <String>ipPort = new ArrayList();
+	static public ArrayList <String>browser = new ArrayList<String>();
+	static public ArrayList <String>ipPort = new ArrayList<String>();
+	
+	static public AndroidUtils androidUtils=new AndroidUtils();
+	static public Queue<String> connectedDevices=new LinkedList<>(androidUtils.getConnectedDevices());
 	//	static int  CURRENT_BROWSER=-1;
 	int  CURRENT_BROWSER=-1;
 	static final int INTERNET_EXPLORER=1;
@@ -38,6 +43,7 @@ public class DriverFactory {
 	{
 		//EnvVar = new EnvironmentVars(); // Intialized here so that browser and ipPort set in global variable
 		xml = new XMLReader("config.xml");
+		//connectedDevices=
 	}
 
 	public void ipBrowserConfig()
@@ -102,6 +108,7 @@ public class DriverFactory {
 				System.out.println("Unable to set unexpected Alert = accept");
 			}         
 			DesiredCapabilities capability;
+			DesiredCapabilities firefoxCapability;
 			switch(CURRENT_BROWSER)
 			{
 			case INTERNET_EXPLORER:
@@ -114,16 +121,18 @@ public class DriverFactory {
 			case FIREFOX:
 				SelectedBrowserName="Mozilla FireFox";
 				
-				capability = DesiredCapabilities.firefox();
+				firefoxCapability = DesiredCapabilities.firefox();
+				firefoxCapability.setCapability("acceptSslCerts", true);
+				firefoxCapability.setCapability("acceptInsecureCerts", true);
 				
 				FirefoxProfile profile = new FirefoxProfile();
 				profile.setAcceptUntrustedCertificates(true); 
 				profile.setAssumeUntrustedCertificateIssuer(false);
 				
-				capability.setPlatform(Platform.ANY);
-				capability.setCapability(FirefoxDriver.PROFILE, profile);
+				//capability.setPlatform(Platform.ANY);
+				//firefoxCapability.setCapability(FirefoxDriver.PROFILE, profile);
 				
-				driver = new RemoteWebDriver(new URL(ipPort.get(Integer.parseInt(name)-1)), capability);
+				driver = new RemoteWebDriver(new URL(ipPort.get(Integer.parseInt(name)-1)), firefoxCapability);
 				
 				driver.manage().window().maximize();
 				break;
@@ -139,8 +148,11 @@ public class DriverFactory {
 				
 			case ANDROID:                            
 				SelectedBrowserName="android chrome";
+				
 				DesiredCapabilities androidDesiredCapabilities=DesiredCapabilities.android();
+				DesiredCapabilities androidDesiredCapabilitieqs=DesiredCapabilities.android();
 				androidDesiredCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME,propReader.getProperty("deviceName"));
+				//androidDesiredCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME,connectedDevices.poll());
 				androidDesiredCapabilities.setCapability("platformName", "android");
 				androidDesiredCapabilities.setCapability(CapabilityType.BROWSER_NAME, BrowserType.CHROME);
 				androidDesiredCapabilities.setCapability("newCommandTimeout", 60*3);
@@ -148,9 +160,9 @@ public class DriverFactory {
 
 				androidDesiredCapabilities.setCapability("noReset", true);
 				androidDesiredCapabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
-				//androidDesiredCapabilities.setCapability("chromedriverExecutable","D:\\VTB\\VTBGitRepo\\VTBCapital\\src\\main\\resources\\driver\\chromedriver.exe");
 				
 				driver=new AndroidDriver(new URL(ipPort.get(Integer.parseInt(name)-1)),androidDesiredCapabilities);
+				
 				break;
 
 			case OPERA:

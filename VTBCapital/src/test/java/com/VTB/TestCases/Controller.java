@@ -83,7 +83,7 @@ public class Controller{
 					if(TestCaseSelectionObj != null)
 					{
 						/*Creating object of test case class. It is identified with TESTID as mentioned in master sheet and testdata sheet*/
-						report.test = report.extentReports.startTest(testid);
+						report.test = report.extentReports.startTest(testDescription);
 						TestCaseSelectionObj.testCasesSelection(testid, report, this.driver);
 						report.extentReports.endTest(report.test);
 					}

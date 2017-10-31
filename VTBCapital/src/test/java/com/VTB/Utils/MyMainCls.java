@@ -2,15 +2,16 @@ package com.VTB.Utils;
 
 public class MyMainCls {
 	
-	public static void main(String[] aaa)
+	/***
+	 * This is the Entry Point of the Framework
+	 * @param args
+	 */
+	public static void main(String[] args)
 	{
-		/****************************************************
-		 * This class is entry point of framework
-		 ****************************************************/
-		
+	
 		CreatingThreads startExec = new CreatingThreads();
 		
-		//Navigate to method who is responsible for creating threads
+		/*Navigating to startExecution() method which will create threads*/
 		startExec.startExecution();
 	}
 }

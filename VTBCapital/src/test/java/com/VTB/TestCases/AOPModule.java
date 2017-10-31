@@ -22,7 +22,7 @@ import com.VTB.Utils.XMLReader;
 import junit.framework.Assert;
 
 public class AOPModule extends DriverFactory implements TCSelection {
-
+	
 	public Reporting report;
 	public XMLReader xml;
 	public Excel excel;
@@ -34,7 +34,7 @@ public class AOPModule extends DriverFactory implements TCSelection {
 	public VTBLoginPage objLoginPage;
 	public VTBPersonalDetailsPage objPersonalDetails;
 	public VTBSummaryPage objSummaryPage;
-
+	
 	/***
 	 * default Constructor
 	 */
@@ -43,14 +43,14 @@ public class AOPModule extends DriverFactory implements TCSelection {
 		excel = new Excel();
 		xml = new XMLReader(new File("config.xml").getAbsolutePath());
 	}
-
+	
 	/***
 	 * implementation of Interface-TCSelection's method
 	 */
 	public void testCasesSelection(String testCaseId, Reporting reportObj, WebDriver driver) {
 		this.driver = driver;
 		this.report = reportObj;
-
+		
 		/*Initializing Pages Object*/
 		objHomePage = new VTBCapitalHomePage(driver, report);
 		objAccountHomePage = new VTBAccountHomePage(driver, report);
@@ -93,7 +93,7 @@ public class AOPModule extends DriverFactory implements TCSelection {
 			e.printStackTrace();
 		}
 	}
-
+	
 	/***
 	 * function to get Next Test ID 
 	 * i.e. if current Id is TC_1001 then next will be TC_1002
@@ -107,9 +107,9 @@ public class AOPModule extends DriverFactory implements TCSelection {
 		String nextTestId = "TC_" + Integer.toString(IdValue);
 		return nextTestId;
 	}
-
+	
 	/***
-	 * Test Cases Implementation
+	 * function to implement Flow1 i.e. Individual Account for New Customer
 	 * @param testCaseId
 	 * @param report
 	 * @throws Exception
@@ -117,44 +117,34 @@ public class AOPModule extends DriverFactory implements TCSelection {
 	public void TC1001(String testCaseId, Reporting report) throws Exception
 	{
 		
-
+		/*Individual Account for New Customer(Flow1)*/
+		
 		/*Getting Test Case Data*/
 		LinkedHashMap <String,String> testCaseData = excel.getTestCaseData(testCaseId);
 
-		
-		
-		
 		/*VTB Capital Home Page*/
 		objHomePage.selectPlanType(testCaseData);
-		
 		/*Account Opening Criteria Page*/
 		objAccountHomePage.setAccountOpeningCriteria(testCaseData);
 		/*Eligibility Criteria Page*/
 		objStartPage.setEligilibiltyCriteria(testCaseData);
-		boolean tempStatus=objStartPage.verifyEligibilityCriteria();
-		String actual="";
-		if(tempStatus)
-		{
-			actual="user is able to select Eligibility Criteria as \'Yes\'";
-		}
-		else
-		{
-			actual="user is not able to select Eligibility Criteria as \'Yes\'";
-					
-		}
-		report.assertThat(tempStatus,  "user is able to select Eligibility Criteria successfully", "user is not able to select Eligibility Criteria successfully");
-		report.setActualExpectedValue(actual,"user should be able to select Eligibility Criteria as Yes");
-
 		/*Personal Details Page*/
 		objPersonalDetails.enterDetailsForNewCustomer(testCaseData);
 		/*Summary Page*/
 		objSummaryPage.enterOTPDetails(testCaseData);
-
+		
+		driver.quit();
 	}
-
+	
+	/***
+	 * function to implement Flow1 i.e. Individual Account for New Customer
+	 * @param testCaseId
+	 * @param report
+	 * @throws Exception
+	 */
 	public void TC1002(String testCaseId, Reporting report) throws Exception
 	{
-
+		
 		/*Getting Test Case Data*/
 		LinkedHashMap <String,String> testCaseData = excel.getTestCaseData(testCaseId);
 
@@ -169,10 +159,16 @@ public class AOPModule extends DriverFactory implements TCSelection {
 		/*Summary Page*/
 		objSummaryPage.enterOTPDetails(testCaseData);
 	}
-
+	
+	/***
+	 * function to implement Flow1 i.e. Individual Account for New Customer
+	 * @param testCaseId
+	 * @param report
+	 * @throws Exception
+	 */
 	public void TC1003(String testCaseId, Reporting report) throws Exception
 	{
-
+		
 		/*Getting Test Case Data*/
 		LinkedHashMap <String,String> testCaseData = excel.getTestCaseData(testCaseId);
 
@@ -187,16 +183,22 @@ public class AOPModule extends DriverFactory implements TCSelection {
 		/*Summary Page*/
 		objSummaryPage.enterOTPDetails(testCaseData);
 	}
-
+	
+	/***
+	 * function to implement Flow4 i.e. Joint Account for both New Customers
+	 * @param testCaseId
+	 * @param report
+	 * @throws Exception
+	 */
 	public void TC1008(String testCaseId, Reporting report) throws Exception
 	{
 
 		String nextTestId = getNextTestCaseId(testCaseId);
-
+		
 		/*Getting Test Case Data*/
 		LinkedHashMap <String,String> testCaseData	= excel.getTestCaseData(testCaseId);
 		LinkedHashMap <String,String> testCaseData2	= excel.getTestCaseData(nextTestId);
-
+		
 		/*VTB Capital Home Page*/
 		objHomePage.selectPlanType(testCaseData);
 		/*Account Opening Criteria Page*/
@@ -216,16 +218,21 @@ public class AOPModule extends DriverFactory implements TCSelection {
 		/*Summary Page*/
 		objSummaryPage.enterOTPDetails(testCaseData2);
 	}
-
+	
+	/***
+	 * function to implement Flow7 i.e. Joint Account for One New and One Existing Customer
+	 * @param testCaseId
+	 * @param report
+	 * @throws Exception
+	 */
 	public void TC1019(String testCaseId, Reporting report) throws Exception
 	{
-
+		
 		/*Getting Test Case Data*/
 		LinkedHashMap <String,String> testCaseData = excel.getTestCaseData(testCaseId);
-
+		
 		/*VTB Capital Home Page*/
 		objHomePage.selectPlanType(testCaseData);
-
 		/*Account Opening Criteria Page*/
 		objAccountHomePage.setAccountOpeningCriteria(testCaseData);
 		/*Eligibility Criteria Page*/
@@ -241,13 +248,19 @@ public class AOPModule extends DriverFactory implements TCSelection {
 		/*Summary Page*/
 		objSummaryPage.enterOTPDetails(testCaseData);
 	}
-
+	
+	/***
+	 * function to implement Flow3 i.e. Individual Account for Existing Customer having Joint Account Only
+	 * @param testCaseId
+	 * @param report
+	 * @throws Exception
+	 */
 	public void TC1020(String testCaseId, Reporting report) throws Exception
 	{
-
+		
 		/*Getting Test Case Data*/
 		LinkedHashMap <String,String> testCaseData = excel.getTestCaseData(testCaseId);
-
+		
 		/*VTB Capital Home Page*/
 		objHomePage.selectPlanType(testCaseData);
 		/*Account Opening Criteria Page*/
@@ -261,13 +274,19 @@ public class AOPModule extends DriverFactory implements TCSelection {
 		/*Summary Page*/
 		objSummaryPage.clickOnContinueSecurely();
 	}
-
+	
+	/***
+	 * function to implement Flow5 i.e. Joint Account for both Existing Customers
+	 * @param testCaseId
+	 * @param report
+	 * @throws Exception
+	 */
 	public void TC1021(String testCaseId, Reporting report) throws Exception
 	{
-
+		
 		/*Getting Test Case Data*/
 		LinkedHashMap <String,String> testCaseData = excel.getTestCaseData(testCaseId);
-
+		
 		/*VTB Capital Home Page*/
 		objHomePage.selectPlanType(testCaseData);
 		/*Account Opening Criteria Page*/
@@ -289,5 +308,5 @@ public class AOPModule extends DriverFactory implements TCSelection {
 		/*Summary Page*/
 		objSummaryPage.clickOnContinueSecurely();
 	}
-
+	
 }
