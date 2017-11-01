@@ -15,8 +15,8 @@ public class CreatingThreads {
 		/*Creating and Starting Hub and Nodes*/
 		HubNodeConfiguration objHubNodeConfig = new HubNodeConfiguration();
 		
-		objHubNodeConfig.createHubAndNode();
-		objHubNodeConfig.startHubAndNode();
+//		objHubNodeConfig.createHubAndNode();
+//		objHubNodeConfig.startHubAndNode();
 		
 		DriverFactory UtilObj = new DriverFactory();
 		UtilObj.ipBrowserConfig();

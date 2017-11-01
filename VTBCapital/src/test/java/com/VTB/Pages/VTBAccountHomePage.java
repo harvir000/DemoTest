@@ -127,7 +127,7 @@ public class VTBAccountHomePage {
 	 * @throws InterruptedException 
 	 */
 	public void setAccountOpeningCriteria(LinkedHashMap <String,String> testCaseData) throws InterruptedException {
-		Thread.sleep(5000);
+		Thread.sleep(6000);
 	/*Selecting AccountType and CustomerType*/
 		verifyAccountOpeningPageTitle(testCaseData);
 		

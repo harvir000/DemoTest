@@ -102,9 +102,9 @@ public class AOPModule extends DriverFactory implements TCSelection {
 	 */
 	public String getNextTestCaseId(String testCaseId) {
 		String currentTestId = testCaseId.substring(testCaseId.length() - 4, testCaseId.length());
-		int IdValue = Integer.parseInt(currentTestId);
-		IdValue = IdValue + 1;
-		String nextTestId = "TC_" + Integer.toString(IdValue);
+		int idValue = Integer.parseInt(currentTestId);
+		idValue = idValue + 1;
+		String nextTestId = "TC_" + Integer.toString(idValue);
 		return nextTestId;
 	}
 	
@@ -132,7 +132,7 @@ public class AOPModule extends DriverFactory implements TCSelection {
 		objPersonalDetails.enterDetailsForNewCustomer(testCaseData);
 		/*Summary Page*/
 		objSummaryPage.enterOTPDetails(testCaseData);
-		
+		Thread.sleep(2000);//temp 
 		driver.quit();
 	}
 	
