@@ -249,7 +249,6 @@ public class VTBPersonalDetailsPage {
 		} else if (testCaseData.get("Title").equalsIgnoreCase("other")) {
 			browserAction.clickJS(titleOtherRadioButton, imgPath, "Selecting Other Title");
 		}
-//		report.assertThat(verifyTitle(), verifyTitle() + "", "true", "Title has been selected successfully", "Title has not been selected successfully");
 		report.assertThat(verifyTitle(), "Title has been selected successfully", "Title has not been selected successfully");
 	}
 
@@ -317,7 +316,6 @@ public class VTBPersonalDetailsPage {
 			browserAction.ScrollAndSetText(taxInformationTaxNumberField, testCaseData.get("TaxNumber"), imgPath,
 					"Tax Number has been entered");
 		}
-//		report.assertThat(verifyTax(), verifyTax() + "", "true", "Tax Information has been selected successfully", "Tax Information has not been selected successfully");
 		report.assertThat(verifyTax(), "Tax Information has been selected successfully", "Tax Information has not been selected successfully");
 	}
 
@@ -349,7 +347,6 @@ public class VTBPersonalDetailsPage {
 		browserAction.clickJS(currentFindAddressButton, imgPath, "Clicking on Find Address");
 		
 		Thread.sleep(3000);
-//		browserAction.waitForElement(currentSelectedAddressField);
 		browserAction.selectFromDD(selectCurrentAddress, testCaseData.get("CurrentSelectedAddress"));
 		Thread.sleep(3000);
 		browserAction.sendTab(currentSelectedAddressField);
@@ -383,7 +380,6 @@ public class VTBPersonalDetailsPage {
 			/* Setting Previous Address */
 			setPreviousAddress(testCaseData);
 		}
-//		report.assertThat(verifyLivingEligibility(), verifyLivingEligibility() + "", "true", "Living Eligibility has been selected successfully", "Living Eligibility has not been selected successfully");
 		report.assertThat(verifyLivingEligibility(),"Living Eligibility has been selected successfully","Living Eligibility has not been selected successfully");
 	}
 
@@ -488,8 +484,6 @@ public class VTBPersonalDetailsPage {
 					"Annually Interest Paid has been selected");
 		}
 		
-//		report.assertThat(verifyInterestPayment(), verifyInterestPayment() + "", "true", "Interest Payment has been selected successfully",
-//				"Interest Payment has not been selected successfully");
 		report.assertThat(verifyInterestPayment(), "Interest Payment has been selected successfully","Interest Payment has not been selected successfully");
 		browserAction.selectFromDD(paymentAccountField, testCaseData.get("PaymentAccount"));
 	}
@@ -535,11 +529,6 @@ public class VTBPersonalDetailsPage {
 					"Selecting Terms and 2nd condition");
 		}
 		
-//		report.assertThat(verifyConfirmationOptions(), verifyConfirmationOptions() + "", "true", "Confirmation Option has been selected successfully",
-//				"Confirmation Option has not been selected successfully");
-//		report.assertThat(verifyTermsConditions(), verifyTermsConditions() + "", "true", "Terms and Conditions has been selected successfully",
-//				"Terms and Conditions has not been selected successfully");
-
 		report.assertThat(verifyConfirmationOptions(), "Confirmation Option has been selected successfully","Confirmation Option has not been selected successfully");
 		report.assertThat(verifyTermsConditions(), "Terms and Conditions has been selected successfully", "Terms and Conditions has not been selected successfully");
 		

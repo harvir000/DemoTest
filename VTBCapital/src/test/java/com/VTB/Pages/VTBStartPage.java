@@ -88,7 +88,6 @@ public class VTBStartPage {
 	public void setAge(LinkedHashMap <String,String> testCaseData) {
 		if (testCaseData.get("EligibleAge").equalsIgnoreCase("Yes")) {
 			browserAction.ScrollAndClickOnElement(ageEligibilityYesRadioButton, imgPath, "Selecting Age Eligibility as 'Yes'");
-//			browserAction.clickJS(ageEligibilityYesRadioButton);
 		} else {
 			browserAction.ScrollAndClickOnElement(ageEligibilityNoRadioButton, imgPath, "Selecting Age Eligibility as 'No'");
 		}
@@ -101,7 +100,6 @@ public class VTBStartPage {
 	public void setResident(LinkedHashMap <String,String> testCaseData) {
 		if (testCaseData.get("EligibleResident").equalsIgnoreCase("Yes")) {
 			browserAction.ScrollAndClickOnElement(residentEligibilityYesRadioButton, imgPath, "Selecting Resident Eligibility as 'Yes'");
-//			browserAction.clickJS(residentEligibilityYesRadioButton);
 		} else {
 			browserAction.ScrollAndClickOnElement(residentEligibilityNoRadioButton, imgPath, "Selecting Resident Eligibility as 'No'");
 		}
@@ -114,7 +112,6 @@ public class VTBStartPage {
 	public void setFatca(LinkedHashMap <String,String> testCaseData) {
 		if (testCaseData.get("EligibleFATCA").equalsIgnoreCase("Yes")) {
 			browserAction.ScrollAndClickOnElement(fatcaEligibilityYesRadioButton, imgPath, "Selecting Fatca Eligibility as 'Yes'");
-//			browserAction.clickJS(fatcaEligibilityYesRadioButton);
 		} else {
 			browserAction.ScrollAndClickOnElement(fatcaEligibilityNoRadioButton, imgPath, "Selecting Fatca Eligibility as 'No'");
 		}
@@ -127,7 +124,6 @@ public class VTBStartPage {
 	public void setPayment(LinkedHashMap <String,String> testCaseData) {
 		if (testCaseData.get("EligiblePayment").equalsIgnoreCase("Yes")) {
 			browserAction.ScrollAndClickOnElement(currentAccountEligibilityYesRadioButton, imgPath, "Selecting Payment Eligibility as 'Yes'");
-//			browserAction.clickJS(currentAccountEligibilityYesRadioButton);
 		} else {
 			browserAction.ScrollAndClickOnElement(currentAccountEligibilityNoRadioButton, imgPath, "Selecting Payment Eligibility as 'No'");
 		}
@@ -144,7 +140,6 @@ public class VTBStartPage {
 		setAge(testCaseData);
 		setFatca(testCaseData);
 		setPayment(testCaseData);
-//		report.assertThat(verifyEligibilityCriteria(), verifyEligibilityCriteria()+"", "true", "Eligibility Criteria has been selected successfully", "Eligibility Criteria has not been selected successfully");
 		report.assertThat(verifyEligibilityCriteria(), "Eligibility Criteria has been selected successfully", "Eligibility Criteria has not been selected successfully");
 	}
 	
@@ -155,15 +150,12 @@ public class VTBStartPage {
 	public void selectCurrentAccountType(LinkedHashMap <String,String> testCaseData) {
 		if (testCaseData.get("CurrentAccountWithVTBCapital").equalsIgnoreCase("Individual Account Only")) {
 			browserAction.ScrollAndClickOnElement(individualAccountOnlyRadioButton, imgPath, "Individual Account Only has been selected");
-//			report.assertThat(individualAccountOnlyRadioButton.isSelected(), individualAccountOnlyRadioButton.isSelected()+"", "true", "Individual Account Only button has been selected successfully", "Individual Account Only button has not been selected successfully");
 			report.assertThat(individualAccountOnlyRadioButton.isSelected(), "Individual Account Only button has been selected successfully", "Individual Account Only button has not been selected successfully");
 		} else if (testCaseData.get("CurrentAccountWithVTBCapital").equalsIgnoreCase("Joint Account Only")) {
 			browserAction.ScrollAndClickOnElement(jointAccountOnlyRadioButton, imgPath, "Joint Account Only has been selected");
-//			report.assertThat(jointAccountOnlyRadioButton.isSelected(), jointAccountOnlyRadioButton.isSelected()+"", "true", "Joint Account Only button has been selected successfully", "Joint Account Only button has not been selected successfully");
 			report.assertThat(jointAccountOnlyRadioButton.isSelected(), "Joint Account Only button has been selected successfully", "Joint Account Only button has not been selected successfully");
 		} else if (testCaseData.get("CurrentAccountWithVTBCapital").equalsIgnoreCase("Both an Individual and a Joint Account")) {
 			browserAction.ScrollAndClickOnElement(bothAnIndividualAndAJointAccountRadioButton, imgPath, "Both an Individual and a Joint Account has been selected");
-//			report.assertThat(bothAnIndividualAndAJointAccountRadioButton.isSelected(), bothAnIndividualAndAJointAccountRadioButton.isSelected()+"", "true", "Both an Individual Account and a Joint Account button has been selected successfully", "Both an Individual Account and a Joint Account button has not been selected successfully");
 			report.assertThat(bothAnIndividualAndAJointAccountRadioButton.isSelected(), "Both an Individual Account and a Joint Account button has been selected successfully", "Both an Individual Account and a Joint Account button has not been selected successfully");
 		}
 	}
@@ -192,7 +184,6 @@ public class VTBStartPage {
 			e.printStackTrace();
 		}
 		browserAction.WaittoPageLoad();
-//		report.assertThat(browserAction.verifyPageTitle("VTB Capital Direct | Apply | Start page"), driver.getTitle(),"VTB Capital Direct | Apply | Start Page","VTB Start Page has been opened succesfully", "opened Page has different Title");
 		report.assertThat(browserAction.verifyPageTitle("VTB Capital Direct | Apply | Start page"), "VTB Start Page has been opened succesfully", "VTB Start Page has different Title");
 	}
 

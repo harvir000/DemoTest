@@ -84,7 +84,6 @@ public class VTBCapitalHomePage {
 	 */
 	public void selectPlanType(LinkedHashMap <String,String> testCaseData) {
 		browserAction.WaittoPageLoad();
-//		report.assertThat(browserAction.verifyPageTitle("Home"), driver.getTitle(),"Home","VTB capital has been opened succesfully", "opened application has different Title");
 		report.assertThat(browserAction.verifyPageTitle("Home"),"VTB Capital Home Page has been opened succesfully", "VTB Capital Home Page application has different Title");
 		choosePlan(testCaseData);
 	}

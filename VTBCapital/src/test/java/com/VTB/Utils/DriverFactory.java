@@ -141,7 +141,14 @@ public class DriverFactory {
 				SelectedBrowserName="Google Chrome";
 				capability=DesiredCapabilities.chrome();
 				capability.setPlatform(Platform.ANY);
-				driver = new RemoteWebDriver(new URL(ipPort.get(Integer.parseInt(name)-1)), capability);
+				String userName="vikas.pandey@soprasteria.com";
+				String api_key="uc54890330d6f5a5";
+
+				//driver = new RemoteWebDriver(new URL(ipPort.get(Integer.parseInt(name)-1)), capability);
+				//driver = new RemoteWebDriver(new URL("http://" + userName+ ":" + api_key + "@hub.crossbrowsertesting.com:80/wd/hub"), capability);
+				driver = new RemoteWebDriver(new URL("http://vikas.pandey%40soprasteria.com:uc54890330d6f5a5@hub.crossbrowsertesting.com:80/wd/hub"), capability);
+
+				//"http://vikas.pandey@soprasteria.com:uc54890330d6f5a5@hub.crossbrowsertesting.com:80/wd/hub"
 				driver.manage().window().maximize();
 				break;
 				
@@ -171,8 +178,8 @@ public class DriverFactory {
 		catch(Exception e)
 		{
 			e.printStackTrace();
-			System.out.println("Error ID 46: Could not open Browser"+e);
-			System.out.println("Error ID 46: Could not open Browser");
+			System.out.println("Error ID 46: Could not open Browser "+e);
+			System.out.println("Error ID 46: Could not open Browser ");
 		}
 		return driver;
 	}

@@ -77,11 +77,9 @@ public class VTBAccountHomePage {
 	public void chooseAccountType(LinkedHashMap <String,String> testCaseData) {
 		if (testCaseData.get("AccountType").equalsIgnoreCase("Individual Account")) {
 			browserAction.clickJS(individualAccountRadioButton, imgPath, "Selecting Individual Account");
-//			report.assertThat(individualAccountRadioButton.isSelected(), individualAccountRadioButton.isSelected()+"", "true", "Individual Account button has been selected successfully", "Individual Account button has not been selected successfully");
 			report.assertThat(individualAccountRadioButton.isSelected(), "Individual Account button has been selected successfully", "Individual Account button has not been selected successfully");
 		} else {
 			browserAction.clickJS(jointAccountRadioButton, imgPath, "Selecting Joint Account");
-//			report.assertThat(jointAccountRadioButton.isSelected(), jointAccountRadioButton.isSelected()+"", "true", "Joint Account button has been selected successfully", "Joint Account button has not been selected successfully");
 			report.assertThat(jointAccountRadioButton.isSelected(), "Joint Account button has been selected successfully", "Joint Account button has not been selected successfully");
 		}
 	}
@@ -95,28 +93,23 @@ public class VTBAccountHomePage {
 		if (testCaseData.get("CustomerType").equalsIgnoreCase("New Customer"))
 		{
 			browserAction.clickJS(newCustomerRadioButton, imgPath, "Selecting New Customer");
-//			report.assertThat(newCustomerRadioButton.isSelected(), newCustomerRadioButton.isSelected()+"", "true", "New customer button has been selected successfully", "New customer button has not been selected successfully");
 			report.assertThat(newCustomerRadioButton.isSelected(), "New customer button has been selected successfully", "New customer button has not been selected successfully");
 		}
 		else if (testCaseData.get("CustomerType").equalsIgnoreCase("Existing Customer")) {
 			browserAction.clickJS(existingCustomerRadioButton, imgPath, "Selecting Existing Customer");
-//			report.assertThat(newCustomerRadioButton.isSelected(), newCustomerRadioButton.isSelected()+"", "true", "Existing Customer button has been selected successfully", "Existing Customer button has not been selected successfully");
 			report.assertThat(newCustomerRadioButton.isSelected(), "Existing Customer button has been selected successfully", "Existing Customer button has not been selected successfully");
 		}
 		else if (testCaseData.get("CustomerType").equalsIgnoreCase("Both New Customers")) {
 			browserAction.clickJS(bothNewCustomerRadioButton, imgPath, "Selecting both New Customers");
-//			report.assertThat(bothNewCustomerRadioButton.isSelected(), bothNewCustomerRadioButton.isSelected()+"", "true", "Both New customers button has been selected successfully", "Both New customers button has not been selected successfully");
 			report.assertThat(bothNewCustomerRadioButton.isSelected(), "Both New customers button has been selected successfully", "Both New customers button has not been selected successfully");
 		}
 		else if (testCaseData.get("CustomerType").equalsIgnoreCase("Both Existing Customers")) 
 		{
 			browserAction.clickJS(bothExistingCustomerRadioButton, imgPath, "Selecting both Existing Customers");
-//			report.assertThat(bothExistingCustomerRadioButton.isSelected(), bothExistingCustomerRadioButton.isSelected()+"", "true", "Both Existing customers button has been selected successfully", "Both Existing customers button has not been selected successfully");
 			report.assertThat(bothExistingCustomerRadioButton.isSelected(), "Both Existing customers button has been selected successfully", "Both Existing customers button has not been selected successfully");
 		} 
 		else {
 			browserAction.clickJS(oneNewAndOneExistingCustomerRadioButton, imgPath, "Selecting one New and one Existing Customer");
-//			report.assertThat(oneNewAndOneExistingCustomerRadioButton.isSelected(), oneNewAndOneExistingCustomerRadioButton.isSelected()+"", "true", "One New and One Existing customer button has been selected successfully", "One New and One Existing customer button has not been selected successfully");
 			report.assertThat(oneNewAndOneExistingCustomerRadioButton.isSelected(), "One New and One Existing customer button has been selected successfully", "One New and One Existing customer button has not been selected successfully");
 		}
 	}
@@ -139,7 +132,6 @@ public class VTBAccountHomePage {
 	
 	public void verifyAccountOpeningPageTitle(LinkedHashMap <String,String> testCaseData) {
 		browserAction.WaittoPageLoad();
-//		report.assertThat(browserAction.verifyPageTitle(testCaseData.get("PlanType")), driver.getTitle(),testCaseData.get("PlanType"), testCaseData.get("PlanType") + "Page has been opened succesfully", testCaseData.get("PlanType") + " Page has different Title");
 		report.assertThat(browserAction.verifyPageTitle(testCaseData.get("PlanType")), testCaseData.get("PlanType") + "Page has been opened succesfully", testCaseData.get("PlanType") + " Page has different Title");
 	}
 	

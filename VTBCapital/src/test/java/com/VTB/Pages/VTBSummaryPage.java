@@ -95,7 +95,6 @@ public class VTBSummaryPage {
 			browserAction.ScrollAndClickOnElement(emailRadioButton, imgPath,
 					"Email has been selected as an Identity Preference");
 		}
-//		report.assertThat(verifyIdentityPreference(), verifyIdentityPreference() + "", "true","Identity Preference has been selected successfully","Identity Preference has not been selected successfully");
 		report.assertThat(verifyIdentityPreference(), "Identity Preference has been selected successfully", "Identity Preference has not been selected successfully");
 	}
 	

@@ -117,8 +117,6 @@ public class AOPModule extends DriverFactory implements TCSelection {
 	public void TC1001(String testCaseId, Reporting report) throws Exception
 	{
 		
-		/*Individual Account for New Customer(Flow1)*/
-		
 		/*Getting Test Case Data*/
 		LinkedHashMap <String,String> testCaseData = excel.getTestCaseData(testCaseId);
 
