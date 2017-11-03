@@ -1,6 +1,7 @@
 package com.VTB.Utils;
 
 import java.io.File;
+import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -24,6 +25,9 @@ public class DriverFactory {
 	public  WebDriver driver;
 	static public ArrayList <String>browser = new ArrayList<String>();
 	static public ArrayList <String>ipPort = new ArrayList<String>();
+	 static String username = "vikas.pandey%40soprasteria.com"; // Your username
+	    static String authkey = "uc54890330d6f5a5";
+	    static String credential="vikas.pandey%40soprasteria.com:uc54890330d6f5a5";//temp
 	
 	static public AndroidUtils androidUtils=new AndroidUtils();
 	static public Queue<String> connectedDevices=new LinkedList<>(androidUtils.getConnectedDevices());
@@ -139,16 +143,34 @@ public class DriverFactory {
 
 			case CHROME:                            
 				SelectedBrowserName="Google Chrome";
-				capability=DesiredCapabilities.chrome();
-				capability.setPlatform(Platform.ANY);
-				String userName="vikas.pandey@soprasteria.com";
-				String api_key="uc54890330d6f5a5";
+				//capability=DesiredCapabilities.chrome();
+				//capability.setPlatform(Platform.ANY);
+				//String userName="vikas.pandey%40soprasteria.com";
+			//	String api_key="uc54890330d6f5a5";
 
 				//driver = new RemoteWebDriver(new URL(ipPort.get(Integer.parseInt(name)-1)), capability);
 				//driver = new RemoteWebDriver(new URL("http://" + userName+ ":" + api_key + "@hub.crossbrowsertesting.com:80/wd/hub"), capability);
-				driver = new RemoteWebDriver(new URL("http://vikas.pandey%40soprasteria.com:uc54890330d6f5a5@hub.crossbrowsertesting.com:80/wd/hub"), capability);
+				//driver = new RemoteWebDriver(new URL("http://vikas.pandey%40soprasteria.com:uc54890330d6f5a5@hub.crossbrowsertesting.com:80/wd/hub"), capability);
 
 				//"http://vikas.pandey@soprasteria.com:uc54890330d6f5a5@hub.crossbrowsertesting.com:80/wd/hub"
+				
+				
+				DesiredCapabilities caps = new DesiredCapabilities();
+				caps.setCapability("name", "Login Form Example");
+		        caps.setCapability("build", "1.0");
+		        caps.setCapability("browserName", "Internet Explorer");
+		        caps.setCapability("version", "11");
+		        caps.setCapability("platform", "Windows 10");
+		        caps.setCapability("screenResolution", "1366x768");
+		        caps.setCapability("record_video", "true");
+
+		        
+		       // RemoteWebDriver driver = new RemoteWebDriver(new URL("http://" + username + ":" + authkey +"@hub.crossbrowsertesting.com:80/wd/hub"), caps);
+		        URI uri = new URI("http://" + username + ":" + authkey +"@hub.crossbrowsertesting.com:80/wd/hub");
+
+		        	RemoteWebDriver driver = new RemoteWebDriver(uri.toURL(), caps);
+		        System.out.println(driver.getSessionId());
+				
 				driver.manage().window().maximize();
 				break;
 				
