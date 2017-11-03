@@ -10,6 +10,7 @@ import org.openqa.selenium.support.PageFactory;
 
 import com.VTB.Utils.BrowserActions;
 import com.VTB.Utils.Reporting;
+import com.applitools.eyes.Eyes;
 
 public class VTBLoginPage {
 
@@ -17,13 +18,15 @@ public class VTBLoginPage {
 	Reporting report;
 	BrowserActions browserAction;
 	String imgPath = "";
+	public Eyes eyes;
 	
 	/***
 	 * Constructor
 	 */
-	public VTBLoginPage(WebDriver driver, Reporting report) {
+	public VTBLoginPage(WebDriver driver, Reporting report, Eyes eyes) {
 		this.driver = driver;
         this.report = report;
+        this.eyes	= eyes;
         
         /*Initialize Elements*/
         PageFactory.initElements(driver, this);
@@ -49,8 +52,17 @@ public class VTBLoginPage {
 	 * Methods
 	 */
 	
+	/***
+	 * function to verify Login Page Title
+	 */
 	public void verifyLoginPageTitle() {
+		try {
+			Thread.sleep(2000);
+		} catch (Exception e) {
+			System.out.println(e.getStackTrace());
+		}
 		browserAction.WaittoPageLoad();
+		eyes.checkWindow("VTB Login Page");
 		report.assertThat(browserAction.verifyPageTitle("VTB Capital Direct | Apply | Login"), driver.getTitle(),
 				"VTB Capital Direct | Apply | Login", "VTB Summary Page has been opened succesfully",
 				"opened Page has different Title");

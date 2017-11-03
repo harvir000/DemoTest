@@ -10,6 +10,7 @@ import org.openqa.selenium.support.PageFactory;
 
 import com.VTB.Utils.BrowserActions;
 import com.VTB.Utils.Reporting;
+import com.applitools.eyes.Eyes;
 
 public class VTBSummaryPage {
 
@@ -17,14 +18,16 @@ public class VTBSummaryPage {
 	Reporting report;
 	BrowserActions browserAction;
 	String imgPath = "";
-
+	public Eyes eyes;
+	
 	/***
 	 * Constructor
 	 */
-	public VTBSummaryPage(WebDriver driver, Reporting report) {
+	public VTBSummaryPage(WebDriver driver, Reporting report, Eyes eyes) {
 		this.driver = driver;
 		this.report = report;
-
+		this.eyes	= eyes;
+		
 		/* Initialize Elements */
 		PageFactory.initElements(driver, this);
 
@@ -145,6 +148,9 @@ public class VTBSummaryPage {
 		clickOnContinueSecurely();
 	}
 	
+	/***
+	 * function to verify Summary Page Title
+	 */
 	public void verifySummaryPageTitle() {
 		try {
 			Thread.sleep(2000);
@@ -152,6 +158,7 @@ public class VTBSummaryPage {
 			System.out.println(e.getStackTrace());
 		}
 		browserAction.WaittoPageLoad();
+		eyes.checkWindow("VTB Summary Page");
 		report.assertThat(browserAction.verifyPageTitle("VTB Capital Direct | Apply | Summary"), "VTB Summary Page has been opened successfully", "VTB Summary Page has different Title");
 	}
 

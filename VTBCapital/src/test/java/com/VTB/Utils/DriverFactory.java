@@ -36,7 +36,7 @@ public class DriverFactory {
 	static final int INTERNET_EXPLORER=1;
 	static final int FIREFOX=2;
 	static final int CHROME=3;
-	static final int OPERA=4;
+	static final int IOS=4;
 	static final int ANDROID=5;
 	static String SelectedBrowserName="NONE";
 
@@ -72,7 +72,7 @@ public class DriverFactory {
 		{
 			CURRENT_BROWSER=1;
 		}
-		else if(currentBrowser.equalsIgnoreCase("Opera"))
+		else if(currentBrowser.equalsIgnoreCase("IOS_SAFARI"))
 		{
 			CURRENT_BROWSER=4;
 		}
@@ -124,7 +124,7 @@ public class DriverFactory {
 					ieCapabilities.setCapability("name", "VTB Automation");
 					ieCapabilities.setPlatform(Platform.WIN8);
 					ieCapabilities.setCapability("screenResolution", "1366x768");
-					ieCapabilities.setCapability("record_video", "false");
+					ieCapabilities.setCapability("record_video", "true");
 
 					driver = new RemoteWebDriver(new URL("http://" + username+ ":" + authkey + "@hub.crossbrowsertesting.com:80/wd/hub"), ieCapabilities);
 
@@ -150,7 +150,7 @@ public class DriverFactory {
 					firefoxCapabilities.setCapability("name", "VTB Automation");
 					firefoxCapabilities.setPlatform(Platform.WIN8);
 					firefoxCapabilities.setCapability("screenResolution", "1366x768");
-					firefoxCapabilities.setCapability("record_video", "false");
+					firefoxCapabilities.setCapability("record_video", "true");
 
 					driver = new RemoteWebDriver(new URL("http://" + username+ ":" + authkey + "@hub.crossbrowsertesting.com:80/wd/hub"), firefoxCapabilities);
 
@@ -174,7 +174,7 @@ public class DriverFactory {
 					chromeCapabilities.setCapability("name", "VTB Automation");
 					chromeCapabilities.setPlatform(Platform.WIN8);
 					chromeCapabilities.setCapability("screenResolution", "1366x768");
-					chromeCapabilities.setCapability("record_video", "false");
+					chromeCapabilities.setCapability("record_video", "true");
 
 					driver = new RemoteWebDriver(new URL("http://" + username+ ":" + authkey + "@hub.crossbrowsertesting.com:80/wd/hub"), chromeCapabilities);
 				}
@@ -193,7 +193,7 @@ public class DriverFactory {
 
 				DesiredCapabilities androidDesiredCapabilities=DesiredCapabilities.android();
 				DesiredCapabilities androidDesiredCapabilitieqs=DesiredCapabilities.android();
-				androidDesiredCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME,propReader.getProperty("deviceName"));
+				androidDesiredCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME,propReader.getProperty("androidDeviceName"));
 				//androidDesiredCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME,connectedDevices.poll());
 				androidDesiredCapabilities.setCapability("platformName", "android");
 				androidDesiredCapabilities.setCapability(CapabilityType.BROWSER_NAME, BrowserType.CHROME);
@@ -215,7 +215,34 @@ public class DriverFactory {
 				}
 				break;
 
-			case OPERA:
+			case IOS:
+				SelectedBrowserName="safari on iOS";
+				DesiredCapabilities iOSDesiredCapabilities=DesiredCapabilities.iphone();
+				
+				iOSDesiredCapabilities.setCapability("platformName", "iOS");
+				iOSDesiredCapabilities.setCapability("automationName", "XCUITest");
+
+				iOSDesiredCapabilities.setCapability("deviceName",propReader.getProperty("iOSDeviceName"));
+				iOSDesiredCapabilities.setCapability("browserName", "safari");
+				//iOSDesiredCapabilities.setCapability("bundleId", "com.soprasteria123");
+				iOSDesiredCapabilities.setCapability("newCommandTimeout", 60*3);
+				//iOSDesiredCapabilities.setCapability(MobileCapabilityType.UDID, "6a586e41877c49614381012cf7321bc5e5e8f5a3");
+				iOSDesiredCapabilities.setCapability("noReset", true);
+				
+				if(propReader.getProperty("isCBT").equalsIgnoreCase("true"))
+				{
+					iOSDesiredCapabilities.setCapability("name", "VTB Automation execution on iOS safari browser");
+
+					driver=new RemoteWebDriver(new URL("http://" + username+ ":" + authkey + "@hub.crossbrowsertesting.com:80/wd/hub"),iOSDesiredCapabilities);
+				}
+				
+				else
+				{
+				
+				driver = new RemoteWebDriver(new URL("http://0.0.0.0:4723/wd/hub"),iOSDesiredCapabilities);
+				}
+				
+			
 			}
 		}
 		catch(Exception e)

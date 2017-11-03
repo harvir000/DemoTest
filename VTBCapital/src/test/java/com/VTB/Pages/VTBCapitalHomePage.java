@@ -10,6 +10,7 @@ import org.openqa.selenium.support.PageFactory;
 
 import com.VTB.Utils.BrowserActions;
 import com.VTB.Utils.Reporting;
+import com.applitools.eyes.Eyes;
 
 public class VTBCapitalHomePage {
 	
@@ -17,13 +18,15 @@ public class VTBCapitalHomePage {
 	Reporting report;
 	BrowserActions browserAction;
 	String imgPath = "";
+	public Eyes eyes;
 	
 	/***
 	 * Constructor
 	 */
-	public VTBCapitalHomePage(WebDriver driver,Reporting report){
+	public VTBCapitalHomePage(WebDriver driver,Reporting report, Eyes eyes){
 		this.driver = driver;
         this.report = report;
+        this.eyes	= eyes;
         
         /*Initialize Elements*/
         PageFactory.initElements(driver, this);
@@ -84,6 +87,7 @@ public class VTBCapitalHomePage {
 	 */
 	public void selectPlanType(LinkedHashMap <String,String> testCaseData) {
 		browserAction.WaittoPageLoad();
+		eyes.checkWindow("VTB Capital Home Page");
 		report.assertThat(browserAction.verifyPageTitle("Home"),"VTB Capital Home Page has been opened succesfully", "VTB Capital Home Page application has different Title");
 		choosePlan(testCaseData);
 	}

@@ -1,8 +1,6 @@
 package com.VTB.TestCases;
 
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.LinkedHashMap;
 
 import org.openqa.selenium.WebDriver;
@@ -14,14 +12,13 @@ import com.VTB.Pages.VTBLoginPage;
 import com.VTB.Pages.VTBPersonalDetailsPage;
 import com.VTB.Pages.VTBStartPage;
 import com.VTB.Pages.VTBSummaryPage;
-import com.VTB.Utils.BrowserActions;
 import com.VTB.Utils.DriverFactory;
 import com.VTB.Utils.Excel;
 import com.VTB.Utils.Reporting;
 import com.VTB.Utils.TCSelection;
 import com.VTB.Utils.XMLReader;
+import com.applitools.eyes.Eyes;
 
-import junit.framework.Assert;
 
 public class AOPModule extends DriverFactory implements TCSelection {
 	
@@ -29,6 +26,8 @@ public class AOPModule extends DriverFactory implements TCSelection {
 	public XMLReader xml;
 	public Excel excel;
 	public WebDriver driver;
+	public Eyes eyes;
+	
 	public VTBCapitalHomePage objHomePage;
 	public VTBAccountHomePage	objAccountHomePage;
 	public VTBStartPage objStartPage;
@@ -49,38 +48,19 @@ public class AOPModule extends DriverFactory implements TCSelection {
 	/***
 	 * implementation of Interface-TCSelection's method
 	 */
-	public void testCasesSelection(String testCaseId, Reporting reportObj, WebDriver driver) {
+	public void testCasesSelection(String testCaseId, Reporting reportObj, WebDriver driver, Eyes eyes) {
 		this.driver = driver;
 		this.report = reportObj;
+		this.eyes   = eyes;
 		
 		/*Initializing Pages Object*/
-		objHomePage = new VTBCapitalHomePage(driver, report);
-		objAccountHomePage = new VTBAccountHomePage(driver, report);
-		objStartPage = new VTBStartPage(driver, report);
-		objAppSelectionPage = new VTBApplicantSelectionPage(driver, report);
-		objLoginPage = new VTBLoginPage(driver, report);
-		objPersonalDetails = new VTBPersonalDetailsPage(driver, report);
-		objSummaryPage = new VTBSummaryPage(driver, report);
-		
-		
-		
-	/*	try {
-			Class cls=Class.forName("com.VTB.Utils.AOPModule");
-			Method[] method=cls.getDeclaredMethods();
-			
-			for(Method methodName:method)
-			{
-				if(methodName.getName().equals(testCaseId))
-				{
-					methodName.invoke(String.class, Reporting.class);
-				}
-			}
-			
-		} catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
-			
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}*/
+		objHomePage = new VTBCapitalHomePage(driver, report, eyes);
+		objAccountHomePage = new VTBAccountHomePage(driver, report, eyes);
+		objStartPage = new VTBStartPage(driver, report, eyes);
+		objAppSelectionPage = new VTBApplicantSelectionPage(driver, report, eyes);
+		objLoginPage = new VTBLoginPage(driver, report, eyes);
+		objPersonalDetails = new VTBPersonalDetailsPage(driver, report, eyes);
+		objSummaryPage = new VTBSummaryPage(driver, report, eyes);
 
 		try {
 			if(testCaseId.equalsIgnoreCase("TC_1001"))
@@ -152,8 +132,6 @@ public class AOPModule extends DriverFactory implements TCSelection {
 		objPersonalDetails.enterDetailsForNewCustomer(testCaseData);
 		/*Summary Page*/
 		objSummaryPage.enterOTPDetails(testCaseData);
-		Thread.sleep(2000);//temp 
-		driver.quit();
 	}
 	
 	/***

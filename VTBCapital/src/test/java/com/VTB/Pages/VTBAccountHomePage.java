@@ -11,6 +11,7 @@ import org.openqa.selenium.support.PageFactory;
 
 import com.VTB.Utils.BrowserActions;
 import com.VTB.Utils.Reporting;
+import com.applitools.eyes.Eyes;
 
 public class VTBAccountHomePage {
 	
@@ -18,14 +19,16 @@ public class VTBAccountHomePage {
 	Reporting report;
 	BrowserActions browserAction;
 	String imgPath = "";
+	public Eyes eyes;
 	
 	/***
 	 * Constructor
 	 */
-	public VTBAccountHomePage(WebDriver driver,Reporting report)
+	public VTBAccountHomePage(WebDriver driver,Reporting report, Eyes eyes)
 	{
 		this.driver = driver;
         this.report = report;
+        this.eyes	= eyes;
         
         /*Initialize Elements*/
         PageFactory.initElements(driver, this);
@@ -97,7 +100,7 @@ public class VTBAccountHomePage {
 		}
 		else if (testCaseData.get("CustomerType").equalsIgnoreCase("Existing Customer")) {
 			browserAction.clickJS(existingCustomerRadioButton, imgPath, "Selecting Existing Customer");
-			report.assertThat(newCustomerRadioButton.isSelected(), "Existing Customer button has been selected successfully", "Existing Customer button has not been selected successfully");
+			report.assertThat(existingCustomerRadioButton.isSelected(), "Existing Customer button has been selected successfully", "Existing Customer button has not been selected successfully");
 		}
 		else if (testCaseData.get("CustomerType").equalsIgnoreCase("Both New Customers")) {
 			browserAction.clickJS(bothNewCustomerRadioButton, imgPath, "Selecting both New Customers");
@@ -132,6 +135,7 @@ public class VTBAccountHomePage {
 	
 	public void verifyAccountOpeningPageTitle(LinkedHashMap <String,String> testCaseData) {
 		browserAction.WaittoPageLoad();
+		eyes.checkWindow("VTB Account Home Page");
 		report.assertThat(browserAction.verifyPageTitle(testCaseData.get("PlanType")), testCaseData.get("PlanType") + "Page has been opened succesfully", testCaseData.get("PlanType") + " Page has different Title");
 	}
 	

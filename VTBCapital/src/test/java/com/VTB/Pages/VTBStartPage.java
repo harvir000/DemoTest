@@ -10,7 +10,8 @@ import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 
 import com.VTB.Utils.BrowserActions;
-import com.VTB.Utils.Reporting; 	
+import com.VTB.Utils.Reporting;
+import com.applitools.eyes.Eyes; 	
 
 public class VTBStartPage {
 
@@ -18,13 +19,15 @@ public class VTBStartPage {
 	Reporting report;
 	BrowserActions browserAction;
 	String imgPath = "";
+	public Eyes eyes;
 	
 	/***
 	 * Constructor
 	 */
-	public VTBStartPage(WebDriver driver,Reporting report){
+	public VTBStartPage(WebDriver driver,Reporting report, Eyes eyes){
 		this.driver = driver;
         this.report = report;
+        this.eyes	= eyes;
         
         /*Initialize Elements*/
         PageFactory.initElements(driver, this);
@@ -184,6 +187,7 @@ public class VTBStartPage {
 			e.printStackTrace();
 		}
 		browserAction.WaittoPageLoad();
+		eyes.checkWindow("VTB Start Page");
 		report.assertThat(browserAction.verifyPageTitle("VTB Capital Direct | Apply | Start page"), "VTB Start Page has been opened succesfully", "VTB Start Page has different Title");
 	}
 

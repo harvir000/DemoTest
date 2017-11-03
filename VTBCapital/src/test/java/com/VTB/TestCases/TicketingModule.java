@@ -9,6 +9,7 @@ import com.VTB.Utils.Reporting;
 import com.VTB.Utils.TCSelection;
 import com.VTB.Utils.DriverFactory;
 import com.VTB.Utils.XMLReader;
+import com.applitools.eyes.Eyes;
 
 public class TicketingModule extends DriverFactory implements TCSelection
 {
@@ -45,6 +46,12 @@ public class TicketingModule extends DriverFactory implements TCSelection
 	{
 		System.out.println("Method2, Class Module 2");
 		driver.get("http://www.google.com");
+	}
+
+	@Override
+	public void testCasesSelection(String testCaseId, Reporting report, WebDriver driver, Eyes eyes) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

@@ -13,15 +13,19 @@ import com.VTB.Utils.Excel;
 import com.VTB.Utils.FactoryMethod;
 import com.VTB.Utils.Reporting;
 import com.VTB.Utils.TCSelection;
+import com.VTB.Utils.AppliTool;
 import com.VTB.Utils.BrowserActions;
 import com.VTB.Utils.DriverFactory;
 import com.VTB.Utils.XMLReader;
+import com.applitools.eyes.Eyes;
 
 public class Controller{
 
 	public WebDriver driver;
 	public Reporting report;
 	String BrowserIP;
+	
+	public Eyes eyes;
 
 	public Controller(){
 	}
@@ -35,6 +39,9 @@ public class Controller{
 	 * @throws InterruptedException
 	 */
 	public WebDriver getDriver(String name) throws InterruptedException{
+		AppliTool tool = new AppliTool();
+		eyes = tool.getEyes();
+		
 		DriverFactory utilObj = new DriverFactory();
 		Thread.sleep(Integer.parseInt(name+"000"));
 		driver = utilObj.OpenBrowser(name);
@@ -67,15 +74,16 @@ public class Controller{
 			{
 				if(value.equalsIgnoreCase("Yes")||value.equalsIgnoreCase("Y"))
 				{	
-//					driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
-					driver.navigate().to(new XMLReader(new File("config.xml").getAbsolutePath()).readTagVal("URL"));
-					handleSecurityCertificate();
-					browserAction.WaittoPageLoad();
-
 					String testid 		   	= key;
 					String testDescription 	= values.get(0);
 					String module			= values.get(2);
 					
+					driver = eyes.open(driver, testid, testDescription);
+					driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+					driver.navigate().to(new XMLReader(new File("config.xml").getAbsolutePath()).readTagVal("URL"));
+					handleSecurityCertificate();
+					browserAction.WaittoPageLoad();
+
 					System.out.println(testid);
 					System.out.println(testDescription);
 					
@@ -83,14 +91,19 @@ public class Controller{
 					if(TestCaseSelectionObj != null)
 					{
 						/*Creating object of test case class. It is identified with TESTID as mentioned in master sheet and testdata sheet*/
-						report.test = report.extentReports.startTest(testDescription);
-						TestCaseSelectionObj.testCasesSelection(testid, report, this.driver);
+						report.test = report.extentReports.startTest(testid);
+						TestCaseSelectionObj.testCasesSelection(testid, report, this.driver, this.eyes);
 						report.extentReports.endTest(report.test);
 					}
 					else
 					{
 						throw new Exception("Unable to create Object of class : "+module);
 					}
+					
+					/*Close Eyes Instance for Current Test*/
+
+					eyes.close();
+					eyes.abortIfNotClosed();
 				}
 			}
 		}
@@ -111,7 +124,6 @@ public class Controller{
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-		
 	}
 
 }

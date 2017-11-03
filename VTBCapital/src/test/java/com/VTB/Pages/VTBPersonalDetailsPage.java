@@ -10,6 +10,7 @@ import org.openqa.selenium.support.PageFactory;
 
 import com.VTB.Utils.BrowserActions;
 import com.VTB.Utils.Reporting;
+import com.applitools.eyes.Eyes;
 
 public class VTBPersonalDetailsPage {
 
@@ -17,14 +18,16 @@ public class VTBPersonalDetailsPage {
 	Reporting report;
 	BrowserActions browserAction;
 	String imgPath = "";
-
+	public Eyes eyes;
+	
 	/***
 	 * Constructor
 	 */
-	public VTBPersonalDetailsPage(WebDriver driver, Reporting report) {
+	public VTBPersonalDetailsPage(WebDriver driver, Reporting report, Eyes eyes) {
 		this.driver = driver;
 		this.report = report;
-
+		this.eyes	= eyes;
+		
 		/* Initialize Elements */
 		PageFactory.initElements(driver, this);
 
@@ -102,6 +105,9 @@ public class VTBPersonalDetailsPage {
 	@FindBy(how = How.CSS, using = "#postcode-for-search")
 	private WebElement currentAddressPostCodeField;
 
+	@FindBy(how = How.XPATH, using = "//button[@class='btn btn-link cta3 showMan']")
+	private WebElement currentEnterAddressManuallyButton;
+	
 	@FindBy(how = How.CSS, using = "#get-address-btn")
 	private WebElement currentFindAddressButton;
 
@@ -337,21 +343,15 @@ public class VTBPersonalDetailsPage {
 	 * Number, Building Number and Street
 	 * 
 	 * @param testCaseData
-	 */
+	 */	
 	public void setCurrentAddress(LinkedHashMap<String, String> testCaseData) throws InterruptedException {
+		
 		browserAction.ScrollAndSetText(currentAddressHouseNumberField, testCaseData.get("CurrentHouseNumber"), imgPath,
 				"Current Address's House Number has been entered");
-		browserAction.ScrollAndSetText(currentAddressPostCodeField, testCaseData.get("CurrentPostCode"), imgPath,
-				"Current Address's Post Code has been entered");
-
-		browserAction.clickJS(currentFindAddressButton, imgPath, "Clicking on Find Address");
 		
-		Thread.sleep(3000);
-		browserAction.selectFromDD(selectCurrentAddress, testCaseData.get("CurrentSelectedAddress"));
-		Thread.sleep(3000);
-		browserAction.sendTab(currentSelectedAddressField);
-
-		browserAction.waitForElement(currentFlatNumberField);
+		browserAction.clickJS(currentEnterAddressManuallyButton);
+		
+		browserAction.clickJS(currentFlatNumberField);
 		browserAction.clearText(currentFlatNumberField);
 		browserAction.ScrollAndSetText(currentFlatNumberField, testCaseData.get("CurrentFlatNumber"), imgPath,
 				"Current Address's Flat Number has been entered");
@@ -359,10 +359,23 @@ public class VTBPersonalDetailsPage {
 		browserAction.clearText(currentBuildingNumberField);
 		browserAction.ScrollAndSetText(currentBuildingNumberField, testCaseData.get("CurrentBuildingNumber"), imgPath,
 				"Current Address's Building Number has been entered");
-
+		
+		browserAction.clearText(currentBuildingNameField);
+		browserAction.ScrollAndSetText(currentBuildingNameField, testCaseData.get("CurrentBuildingName"), imgPath,
+				"Current Address's Building Name has been entered");
+		
 		browserAction.clearText(currentStreetField);
 		browserAction.ScrollAndSetText(currentStreetField, testCaseData.get("CurrentStreet"), imgPath,
 				"Current Address's Street has been entered");
+		
+		browserAction.clearText(currentCityField);
+		browserAction.ScrollAndSetText(currentCityField, testCaseData.get("CurrentCity"), imgPath,
+				"Current Address's City has been entered");
+		
+		browserAction.clearText(currentPostCodeField);
+		browserAction.ScrollAndSetText(currentPostCodeField, testCaseData.get("CurrentPostCode"), imgPath,
+				"Current Address's Post Code has been entered");
+		
 	}
 
 	/***
@@ -633,6 +646,7 @@ public class VTBPersonalDetailsPage {
 			e.printStackTrace();
 		}
 		browserAction.WaittoPageLoad();
+		eyes.checkWindow("VTB Personal Details Page");
 		report.assertThat(browserAction.verifyPageTitle("VTB Capital Direct | Apply | Personal details"),"VTB Personal Details Page has been opened succesfully", "VTB Personal Details has different Title");
 	}
 

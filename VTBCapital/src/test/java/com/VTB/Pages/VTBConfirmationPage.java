@@ -8,6 +8,7 @@ import org.openqa.selenium.support.PageFactory;
 
 import com.VTB.Utils.BrowserActions;
 import com.VTB.Utils.Reporting;
+import com.applitools.eyes.Eyes;
 
 public class VTBConfirmationPage {
 	
@@ -15,14 +16,16 @@ public class VTBConfirmationPage {
 	Reporting report;
 	BrowserActions browserAction;
 	String imgPath = "";
+	public Eyes eyes;
 	
 	/***
 	 * Constructor
 	 */
 	
-	public VTBConfirmationPage(WebDriver driver,Reporting report){
+	public VTBConfirmationPage(WebDriver driver,Reporting report, Eyes eyes){
 		this.driver = driver;
         this.report = report;
+        this.eyes	= eyes;
         
         /*Initialize Elements*/
         PageFactory.initElements(driver, this);

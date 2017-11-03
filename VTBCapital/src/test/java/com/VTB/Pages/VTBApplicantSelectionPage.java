@@ -8,6 +8,7 @@ import org.openqa.selenium.support.PageFactory;
 
 import com.VTB.Utils.BrowserActions;
 import com.VTB.Utils.Reporting;
+import com.applitools.eyes.Eyes;
 
 
 public class VTBApplicantSelectionPage {
@@ -16,13 +17,15 @@ public class VTBApplicantSelectionPage {
 	Reporting report;
 	BrowserActions browserAction;
 	String imgPath = "";
+	public Eyes eyes;
 	
 	/***
 	 * Constructor
 	 */
-	public VTBApplicantSelectionPage(WebDriver driver,Reporting report){
+	public VTBApplicantSelectionPage(WebDriver driver,Reporting report, Eyes eyes){
 		this.driver = driver;
         this.report = report;
+        this.eyes	= eyes;
         
         /*Initialize Elements*/
         PageFactory.initElements(driver, this);
@@ -58,7 +61,13 @@ public class VTBApplicantSelectionPage {
 	 * function to verify Applicant selection Page Title
 	 */
 	public void verifyApplicantSelectionPageTitle() {
+		try {
+			Thread.sleep(2000);
+		} catch (Exception e) {
+			System.out.println(e.getStackTrace());
+		}
 		browserAction.WaittoPageLoad();
+		eyes.checkWindow("VTB Application Selection Page");
 		report.assertThat(browserAction.verifyPageTitle("VTB Capital Direct | Apply | Applicant selection"), driver.getTitle(),"VTB Capital Direct | Apply | Applicant selection","VTB capital Start Page has been opened succesfully", "opened Page has different Title");
 	}
 	
