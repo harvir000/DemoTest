@@ -1,6 +1,8 @@
 package com.VTB.TestCases;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.LinkedHashMap;
 
 import org.openqa.selenium.WebDriver;
@@ -59,6 +61,26 @@ public class AOPModule extends DriverFactory implements TCSelection {
 		objLoginPage = new VTBLoginPage(driver, report);
 		objPersonalDetails = new VTBPersonalDetailsPage(driver, report);
 		objSummaryPage = new VTBSummaryPage(driver, report);
+		
+		
+		
+	/*	try {
+			Class cls=Class.forName("com.VTB.Utils.AOPModule");
+			Method[] method=cls.getDeclaredMethods();
+			
+			for(Method methodName:method)
+			{
+				if(methodName.getName().equals(testCaseId))
+				{
+					methodName.invoke(String.class, Reporting.class);
+				}
+			}
+			
+		} catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
+			
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}*/
 
 		try {
 			if(testCaseId.equalsIgnoreCase("TC_1001"))

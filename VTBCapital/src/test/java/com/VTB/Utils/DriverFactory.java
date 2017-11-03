@@ -25,10 +25,10 @@ public class DriverFactory {
 	public  WebDriver driver;
 	static public ArrayList <String>browser = new ArrayList<String>();
 	static public ArrayList <String>ipPort = new ArrayList<String>();
-	 static String username = "vikas.pandey%40soprasteria.com"; // Your username
-	    static String authkey = "uc54890330d6f5a5";
-	    static String credential="vikas.pandey%40soprasteria.com:uc54890330d6f5a5";//temp
-	
+	static String username = "vikas.pandey%40soprasteria.com"; // Your username
+	static String authkey = "uc54890330d6f5a5";
+	static String credential="vikas.pandey%40soprasteria.com:uc54890330d6f5a5";//temp
+
 	static public AndroidUtils androidUtils=new AndroidUtils();
 	static public Queue<String> connectedDevices=new LinkedList<>(androidUtils.getConnectedDevices());
 	//	static int  CURRENT_BROWSER=-1;
@@ -111,73 +111,86 @@ public class DriverFactory {
 			{
 				System.out.println("Unable to set unexpected Alert = accept");
 			}         
-			DesiredCapabilities capability;
-			DesiredCapabilities firefoxCapability;
+			
 			switch(CURRENT_BROWSER)
 			{
 			case INTERNET_EXPLORER:
 				SelectedBrowserName="Internet Explorer";
-				capability=DesiredCapabilities.internetExplorer();
-				capability.setPlatform(Platform.ANY);
-				driver = new RemoteWebDriver(new URL(ipPort.get(Integer.parseInt(name)-1)), capability);
+				DesiredCapabilities ieCapabilities=DesiredCapabilities.internetExplorer();
+				
+				
+				if(propReader.getProperty("isCBT").equalsIgnoreCase("true"))
+				{
+					ieCapabilities.setCapability("name", "VTB Automation");
+					ieCapabilities.setPlatform(Platform.WIN8);
+					ieCapabilities.setCapability("screenResolution", "1366x768");
+					ieCapabilities.setCapability("record_video", "false");
+
+					driver = new RemoteWebDriver(new URL("http://" + username+ ":" + authkey + "@hub.crossbrowsertesting.com:80/wd/hub"), ieCapabilities);
+
+				}
+				
+				else
+				{
+					ieCapabilities.setPlatform(Platform.ANY);
+				driver = new RemoteWebDriver(new URL(ipPort.get(Integer.parseInt(name)-1)), ieCapabilities);
+				}
 				driver.manage().window().maximize();
 				break;
+				
 			case FIREFOX:
 				SelectedBrowserName="Mozilla FireFox";
+
+				DesiredCapabilities	firefoxCapabilities = DesiredCapabilities.firefox();
+				firefoxCapabilities.setCapability("acceptSslCerts", true);
+				firefoxCapabilities.setCapability("acceptInsecureCerts", true);
+
+				if(propReader.getProperty("isCBT").equalsIgnoreCase("true"))
+				{
+					firefoxCapabilities.setCapability("name", "VTB Automation");
+					firefoxCapabilities.setPlatform(Platform.WIN8);
+					firefoxCapabilities.setCapability("screenResolution", "1366x768");
+					firefoxCapabilities.setCapability("record_video", "false");
+
+					driver = new RemoteWebDriver(new URL("http://" + username+ ":" + authkey + "@hub.crossbrowsertesting.com:80/wd/hub"), firefoxCapabilities);
+
+				}
+				else
+				{
+					driver = new RemoteWebDriver(new URL(ipPort.get(Integer.parseInt(name)-1)), firefoxCapabilities);
 				
-				firefoxCapability = DesiredCapabilities.firefox();
-				firefoxCapability.setCapability("acceptSslCerts", true);
-				firefoxCapability.setCapability("acceptInsecureCerts", true);
-				
-				FirefoxProfile profile = new FirefoxProfile();
-				profile.setAcceptUntrustedCertificates(true); 
-				profile.setAssumeUntrustedCertificateIssuer(false);
-				
-				//capability.setPlatform(Platform.ANY);
-				//firefoxCapability.setCapability(FirefoxDriver.PROFILE, profile);
-				
-				driver = new RemoteWebDriver(new URL(ipPort.get(Integer.parseInt(name)-1)), firefoxCapability);
-				
+				}
 				driver.manage().window().maximize();
 				break;
+
 
 			case CHROME:                            
 				SelectedBrowserName="Google Chrome";
-				//capability=DesiredCapabilities.chrome();
-				//capability.setPlatform(Platform.ANY);
-				//String userName="vikas.pandey%40soprasteria.com";
-			//	String api_key="uc54890330d6f5a5";
+				DesiredCapabilities chromeCapabilities=DesiredCapabilities.chrome();
 
-				//driver = new RemoteWebDriver(new URL(ipPort.get(Integer.parseInt(name)-1)), capability);
-				//driver = new RemoteWebDriver(new URL("http://" + userName+ ":" + api_key + "@hub.crossbrowsertesting.com:80/wd/hub"), capability);
-				//driver = new RemoteWebDriver(new URL("http://vikas.pandey%40soprasteria.com:uc54890330d6f5a5@hub.crossbrowsertesting.com:80/wd/hub"), capability);
 
-				//"http://vikas.pandey@soprasteria.com:uc54890330d6f5a5@hub.crossbrowsertesting.com:80/wd/hub"
-				
-				
-				DesiredCapabilities caps = new DesiredCapabilities();
-				caps.setCapability("name", "Login Form Example");
-		        caps.setCapability("build", "1.0");
-		        caps.setCapability("browserName", "Internet Explorer");
-		        caps.setCapability("version", "11");
-		        caps.setCapability("platform", "Windows 10");
-		        caps.setCapability("screenResolution", "1366x768");
-		        caps.setCapability("record_video", "true");
+				if(propReader.getProperty("isCBT").equalsIgnoreCase("true"))
+				{
+					chromeCapabilities.setCapability("name", "VTB Automation");
+					chromeCapabilities.setPlatform(Platform.WIN8);
+					chromeCapabilities.setCapability("screenResolution", "1366x768");
+					chromeCapabilities.setCapability("record_video", "false");
 
-		        
-		       // RemoteWebDriver driver = new RemoteWebDriver(new URL("http://" + username + ":" + authkey +"@hub.crossbrowsertesting.com:80/wd/hub"), caps);
-		        URI uri = new URI("http://" + username + ":" + authkey +"@hub.crossbrowsertesting.com:80/wd/hub");
+					driver = new RemoteWebDriver(new URL("http://" + username+ ":" + authkey + "@hub.crossbrowsertesting.com:80/wd/hub"), chromeCapabilities);
+				}
 
-		        	RemoteWebDriver driver = new RemoteWebDriver(uri.toURL(), caps);
-		        System.out.println(driver.getSessionId());
-				
+				else
+				{
+					driver = new RemoteWebDriver(new URL(ipPort.get(Integer.parseInt(name)-1)), chromeCapabilities);
+				}
+
 				driver.manage().window().maximize();
 				break;
-				
-				
+
+
 			case ANDROID:                            
 				SelectedBrowserName="android chrome";
-				
+
 				DesiredCapabilities androidDesiredCapabilities=DesiredCapabilities.android();
 				DesiredCapabilities androidDesiredCapabilitieqs=DesiredCapabilities.android();
 				androidDesiredCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME,propReader.getProperty("deviceName"));
@@ -189,9 +202,17 @@ public class DriverFactory {
 
 				androidDesiredCapabilities.setCapability("noReset", true);
 				androidDesiredCapabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
-				
-				driver=new AndroidDriver(new URL(ipPort.get(Integer.parseInt(name)-1)),androidDesiredCapabilities);
-				
+
+				if(propReader.getProperty("isCBT").equalsIgnoreCase("true"))
+				{
+
+					driver=new AndroidDriver(new URL("http://" + username+ ":" + authkey + "@hub.crossbrowsertesting.com:80/wd/hub"),androidDesiredCapabilities);
+				}
+				else
+				{
+					driver=new AndroidDriver(new URL(ipPort.get(Integer.parseInt(name)-1)),androidDesiredCapabilities);
+
+				}
 				break;
 
 			case OPERA:
