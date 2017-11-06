@@ -122,7 +122,9 @@ public class DriverFactory {
 				if(propReader.getProperty("isCBT").equalsIgnoreCase("true"))
 				{
 					ieCapabilities.setCapability("name", "VTB Automation");
-					ieCapabilities.setPlatform(Platform.WIN8);
+					ieCapabilities.setCapability("browserName", "Internet Explorer");
+					ieCapabilities.setCapability("version", "11");
+					ieCapabilities.setCapability("platform", "Windows 8.1");
 					ieCapabilities.setCapability("screenResolution", "1366x768");
 					ieCapabilities.setCapability("record_video", "true");
 
@@ -171,7 +173,7 @@ public class DriverFactory {
 
 				if(propReader.getProperty("isCBT").equalsIgnoreCase("true"))
 				{
-					chromeCapabilities.setCapability("name", "VTB Automation");
+					chromeCapabilities.setCapability("name", "VTB Automation chrome execution");
 					chromeCapabilities.setPlatform(Platform.WIN8);
 					chromeCapabilities.setCapability("screenResolution", "1366x768");
 					chromeCapabilities.setCapability("record_video", "true");
@@ -181,6 +183,7 @@ public class DriverFactory {
 
 				else
 				{
+					chromeCapabilities.setPlatform(Platform.ANY);
 					driver = new RemoteWebDriver(new URL(ipPort.get(Integer.parseInt(name)-1)), chromeCapabilities);
 				}
 
@@ -205,6 +208,7 @@ public class DriverFactory {
 
 				if(propReader.getProperty("isCBT").equalsIgnoreCase("true"))
 				{
+					androidDesiredCapabilities.setCapability("name", "VTB Automation andorid chrome");
 
 					driver=new AndroidDriver(new URL("http://" + username+ ":" + authkey + "@hub.crossbrowsertesting.com:80/wd/hub"),androidDesiredCapabilities);
 				}

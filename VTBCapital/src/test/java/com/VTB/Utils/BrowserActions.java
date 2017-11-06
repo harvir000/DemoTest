@@ -234,7 +234,7 @@ public class BrowserActions {
 	public void ScrollAndSetText(WebElement element, String value, String imgPath, String message) 
 	{
 		scrollToElement(element);
-		setText(element, value, imgPath, message);
+		setText(element, value , imgPath, message);
 	}
 	
 	/***
