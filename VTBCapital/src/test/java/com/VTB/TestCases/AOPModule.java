@@ -307,4 +307,33 @@ public class AOPModule extends DriverFactory implements TCSelection {
 		objSummaryPage.clickOnContinueSecurely();
 	}
 	
+	
+	
+	
+	/***
+	 * Background Verification_Double detected_Only Birth date and Name are same
+	 * @param testCaseId
+	 * @param report
+	 * @throws Exception
+	 */
+	public void SIT_FA_AOP_13_05(String testCaseId, Reporting report) throws Exception
+	
+	{
+		
+		/*Getting Test Case Data*/
+		LinkedHashMap <String,String> testCaseData = excel.getTestCaseData(testCaseId);
+
+		/*VTB Capital Home Page*/
+		objHomePage.selectPlanType(testCaseData);
+		/*Account Opening Criteria Page*/
+		objAccountHomePage.setAccountOpeningCriteria(testCaseData);
+		/*Eligibility Criteria Page*/
+		objStartPage.setEligilibiltyCriteria(testCaseData);
+		/*Personal Details Page*/
+		objPersonalDetails.enterDetailsForNewCustomer(testCaseData);
+		/*Summary Page*/
+		objSummaryPage.enterOTPDetails(testCaseData);
+		
+	}// in progress... not completed
+	
 }

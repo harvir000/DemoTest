@@ -111,14 +111,14 @@ public class DriverFactory {
 			{
 				System.out.println("Unable to set unexpected Alert = accept");
 			}         
-			
+
 			switch(CURRENT_BROWSER)
 			{
 			case INTERNET_EXPLORER:
 				SelectedBrowserName="Internet Explorer";
 				DesiredCapabilities ieCapabilities=DesiredCapabilities.internetExplorer();
-				
-				
+
+
 				if(propReader.getProperty("isCBT").equalsIgnoreCase("true"))
 				{
 					ieCapabilities.setCapability("name", "VTB Automation");
@@ -131,15 +131,15 @@ public class DriverFactory {
 					driver = new RemoteWebDriver(new URL("http://" + username+ ":" + authkey + "@hub.crossbrowsertesting.com:80/wd/hub"), ieCapabilities);
 
 				}
-				
+
 				else
 				{
 					ieCapabilities.setPlatform(Platform.ANY);
-				driver = new RemoteWebDriver(new URL(ipPort.get(Integer.parseInt(name)-1)), ieCapabilities);
+					driver = new RemoteWebDriver(new URL(ipPort.get(Integer.parseInt(name)-1)), ieCapabilities);
 				}
 				driver.manage().window().maximize();
 				break;
-				
+
 			case FIREFOX:
 				SelectedBrowserName="Mozilla FireFox";
 
@@ -160,7 +160,7 @@ public class DriverFactory {
 				else
 				{
 					driver = new RemoteWebDriver(new URL(ipPort.get(Integer.parseInt(name)-1)), firefoxCapabilities);
-				
+
 				}
 				driver.manage().window().maximize();
 				break;
@@ -178,6 +178,7 @@ public class DriverFactory {
 					chromeCapabilities.setCapability("screenResolution", "1366x768");
 					chromeCapabilities.setCapability("record_video", "true");
 
+					//driver = new RemoteWebDriver(new URL("http://harveersingh:6cff08b6-00b1-4082-a1e3-046ee5707112@ondemand.saucelabs.com:80/wd/hub"), chromeCapabilities);
 					driver = new RemoteWebDriver(new URL("http://" + username+ ":" + authkey + "@hub.crossbrowsertesting.com:80/wd/hub"), chromeCapabilities);
 				}
 
@@ -222,7 +223,7 @@ public class DriverFactory {
 			case IOS:
 				SelectedBrowserName="safari on iOS";
 				DesiredCapabilities iOSDesiredCapabilities=DesiredCapabilities.iphone();
-				
+
 				iOSDesiredCapabilities.setCapability("platformName", "iOS");
 				iOSDesiredCapabilities.setCapability("automationName", "XCUITest");
 
@@ -232,21 +233,21 @@ public class DriverFactory {
 				iOSDesiredCapabilities.setCapability("newCommandTimeout", 60*3);
 				//iOSDesiredCapabilities.setCapability(MobileCapabilityType.UDID, "6a586e41877c49614381012cf7321bc5e5e8f5a3");
 				iOSDesiredCapabilities.setCapability("noReset", true);
-				
+
 				if(propReader.getProperty("isCBT").equalsIgnoreCase("true"))
 				{
 					iOSDesiredCapabilities.setCapability("name", "VTB Automation execution on iOS safari browser");
 
 					driver=new RemoteWebDriver(new URL("http://" + username+ ":" + authkey + "@hub.crossbrowsertesting.com:80/wd/hub"),iOSDesiredCapabilities);
 				}
-				
+
 				else
 				{
-				
-				driver = new RemoteWebDriver(new URL("http://0.0.0.0:4723/wd/hub"),iOSDesiredCapabilities);
+
+					driver = new RemoteWebDriver(new URL("http://0.0.0.0:4723/wd/hub"),iOSDesiredCapabilities);
 				}
-				
-			
+
+
 			}
 		}
 		catch(Exception e)

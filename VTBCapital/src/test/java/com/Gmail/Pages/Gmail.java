@@ -25,6 +25,7 @@ public class Gmail {
 		System.out.println("***Reading mailbox...");
 
 		try {
+			
 			Properties props = new Properties();
 			props.put("mail.store.protocol", "imaps");
 			Session session = Session.getInstance(props);
@@ -32,6 +33,7 @@ public class Gmail {
 			store.connect("imap.gmail.com", USERNAME, PASSWORD);
 			folder = store.getFolder("INBOX");
 			folder.open(Folder.READ_ONLY);
+			
 			Message[] messages = folder.getMessages();
 			System.out.println("No of Messages : " + folder.getMessageCount());
 			System.out.println("No of Unread Messages : " + folder.getUnreadMessageCount());

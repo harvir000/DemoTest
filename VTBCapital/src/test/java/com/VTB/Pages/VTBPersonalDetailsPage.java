@@ -339,45 +339,132 @@ public class VTBPersonalDetailsPage {
 	}
 
 	/***
+	 * function to set Current Flat Number
+	 * @param testCaseData
+	 */
+	public void setCurrentFlatNumber(String currentFlatNumber) {
+		if (!(currentFlatNumber.equals("") | currentFlatNumber.equals(null))) {
+			browserAction.clickJS(currentFlatNumberField);
+			browserAction.clearText(currentFlatNumberField);
+			browserAction.ScrollAndSetText(currentFlatNumberField, currentFlatNumber, imgPath,
+					"Current Address's Flat Number has been entered");
+		}
+	}
+	
+	/***
+	 * function to set Current Building Number
+	 * @param testCaseData
+	 */
+	public void setCurrentBuildingNumber(String currentBuildingNumber) {
+		browserAction.clearText(currentBuildingNumberField);
+		browserAction.ScrollAndSetText(currentBuildingNumberField, currentBuildingNumber, imgPath,
+				"Current Address's Building Number has been entered");
+	}
+	
+	/***
+	 * function to set Current Building Name
+	 * @param testCaseData
+	 */
+	public void setCurrentBuildingName(String currentBuildingName) {
+		if (!(currentBuildingName.equals("") | currentBuildingName.equals(null))) {
+			browserAction.clearText(currentBuildingNameField);
+			browserAction.ScrollAndSetText(currentBuildingNameField, currentBuildingName, imgPath,
+					"Current Address's Building Name has been entered");
+		}
+	}
+	
+	/***
+	 * function to set Current Street
+	 * @param testCaseData
+	 */
+	public void setCurrentStreet(String currentStreet) {
+		browserAction.clearText(currentStreetField);
+		browserAction.ScrollAndSetText(currentStreetField, currentStreet, imgPath,
+				"Current Address's Street has been entered");
+	}
+	
+	/***
+	 * function to set Current City
+	 * @param testCaseData
+	 */
+	public void setCurrentCity(String currentCity) {
+		browserAction.clearText(currentCityField);
+		browserAction.ScrollAndSetText(currentCityField, currentCity, imgPath,
+				"Current Address's City has been entered");
+	}
+	
+	/***
+	 * function to set Current Post Code
+	 * @param testCaseData
+	 */
+	public void setCurrentPostCode(String currentPostCode) {
+		browserAction.clearText(currentPostCodeField);
+		browserAction.ScrollAndSetText(currentPostCodeField, currentPostCode, imgPath,
+				"Current Address's Post Code has been entered");
+	}
+	
+	/***
 	 * function to Set Current Address i.e. House No., Post Code, Address, Flat
 	 * Number, Building Number and Street
 	 * 
 	 * @param testCaseData
 	 */	
-	public void setCurrentAddress(LinkedHashMap<String, String> testCaseData) throws InterruptedException {
+	public void setCurrentAddress(LinkedHashMap<String, String> testCaseData) {
 		
-		browserAction.ScrollAndSetText(currentAddressHouseNumberField, testCaseData.get("CurrentHouseNumber"), imgPath,
+		String currentHouseNumber = testCaseData.get("CurrentHouseNumber");
+		String currentFlatNumber = testCaseData.get("CurrentFlatNumber");
+		String currentBuildingNumber = testCaseData.get("CurrentBuildingNumber");
+		String currentBuildingName = testCaseData.get("CurrentBuildingName");
+		String currentStreet = testCaseData.get("CurrentStreet");
+		String currentCity = testCaseData.get("CurrentCity");
+		String currentPostCode = testCaseData.get("CurrentPostCode");
+		
+		browserAction.ScrollAndSetText(currentAddressHouseNumberField, currentHouseNumber, imgPath,
 				"Current Address's House Number has been entered");
 		
 		browserAction.clickJS(currentEnterAddressManuallyButton);
 		
-		browserAction.clickJS(currentFlatNumberField);
-		browserAction.clearText(currentFlatNumberField);
-		browserAction.ScrollAndSetText(currentFlatNumberField, testCaseData.get("CurrentFlatNumber"), imgPath,
-				"Current Address's Flat Number has been entered");
-
-		browserAction.clearText(currentBuildingNumberField);
-		browserAction.ScrollAndSetText(currentBuildingNumberField, testCaseData.get("CurrentBuildingNumber"), imgPath,
-				"Current Address's Building Number has been entered");
-		
-		browserAction.clearText(currentBuildingNameField);
-		browserAction.ScrollAndSetText(currentBuildingNameField, testCaseData.get("CurrentBuildingName"), imgPath,
-				"Current Address's Building Name has been entered");
-		
-		browserAction.clearText(currentStreetField);
-		browserAction.ScrollAndSetText(currentStreetField, testCaseData.get("CurrentStreet"), imgPath,
-				"Current Address's Street has been entered");
-		
-		browserAction.clearText(currentCityField);
-		browserAction.ScrollAndSetText(currentCityField, testCaseData.get("CurrentCity"), imgPath,
-				"Current Address's City has been entered");
-		
-		browserAction.clearText(currentPostCodeField);
-		browserAction.ScrollAndSetText(currentPostCodeField, testCaseData.get("CurrentPostCode"), imgPath,
-				"Current Address's Post Code has been entered");
-		
+		setCurrentFlatNumber(currentFlatNumber);
+		setCurrentBuildingNumber(currentBuildingNumber);
+		setCurrentBuildingName(currentBuildingName);
+		setCurrentStreet(currentStreet);
+		setCurrentCity(currentCity);
+		setCurrentPostCode(currentPostCode);
 	}
+	
+	/***
+	 * function to Set Current Address i.e. House No., Post Code, Address, Flat
+	 * Number, Building Number and Street with the Find Address Button
+	 * @param testCaseData
+	 * @throws InterruptedException 
+	 */	
+	public void setCurrentAddressUsingFindAddressButton(LinkedHashMap<String, String> testCaseData) throws InterruptedException {
+		
+		String currentHouseNumber = testCaseData.get("CurrentHouseNumber");
+		String currentPostCode = testCaseData.get("CurrentPostCode");
+		String currentFlatNumber = testCaseData.get("CurrentFlatNumber");
+		String currentBuildingNumber = testCaseData.get("CurrentBuildingNumber");
+		String currentBuildingName = testCaseData.get("CurrentBuildingName");
+		String currentStreet = testCaseData.get("CurrentStreet");
+		
+		browserAction.ScrollAndSetText(currentAddressHouseNumberField, currentHouseNumber, imgPath,
+				"Current Address's House Number has been entered");
+		
+		browserAction.ScrollAndSetText(currentAddressPostCodeField, currentPostCode, imgPath,
+				"Current Address's Post Code has been entered");
 
+		browserAction.clickJS(currentFindAddressButton, imgPath, "Clicking on Find Address");
+		
+		Thread.sleep(3000);
+		browserAction.selectFromDD(selectCurrentAddress, testCaseData.get("CurrentSelectedAddress"));
+		Thread.sleep(3000);
+		
+		setCurrentFlatNumber(currentFlatNumber);
+		setCurrentBuildingNumber(currentBuildingNumber);
+		setCurrentBuildingName(currentBuildingName);
+		setCurrentStreet(currentStreet);		
+	}
+	
 	/***
 	 * function to Set Living Eligibility Criteria i.e. Yes or No
 	 * 
@@ -438,7 +525,6 @@ public class VTBPersonalDetailsPage {
 
 	/***
 	 * function to Set Email and Mobile Number
-	 * 
 	 * @param testCaseData
 	 */
 	public void setEmailAndMobile(LinkedHashMap<String, String> testCaseData) {
@@ -446,6 +532,10 @@ public class VTBPersonalDetailsPage {
 				"Email has been entered");
 		browserAction.ScrollAndSetText(mobileNumberField, testCaseData.get("MobileNumber"), imgPath,
 				"Mobile has been entered");
+	}
+	
+	public void setAlternatePhone(LinkedHashMap<String, String> testCaseData) {
+		
 	}
 
 	/***
@@ -519,17 +609,21 @@ public class VTBPersonalDetailsPage {
 	 * @param testCaseData
 	 */
 	public void setConfirmationOptionsAndContinue(LinkedHashMap<String, String> testCaseData) {
-		if (testCaseData.get("ConfirmationOption").equalsIgnoreCase("by email")) {
-			browserAction.ScrollAndClickOnElement(emailConfirmationRadioButton, imgPath,
-					"Selecting only Email as Confirmation option");
-		} else if (testCaseData.get("ConfirmationOption").equalsIgnoreCase("by mobile")) {
-			browserAction.ScrollAndClickOnElement(mobileConfirmationRadioButton, imgPath,
-					"Selecting only Mobile as Confirmation option");
-		} else if (testCaseData.get("ConfirmationOption").equalsIgnoreCase("Both")) {
-			browserAction.ScrollAndClickOnElement(emailConfirmationRadioButton, imgPath,
-					"Selecting Email as Confirmation option");
-			browserAction.ScrollAndClickOnElement(mobileConfirmationRadioButton, imgPath,
-					"Selecting Mobile as Confirmation option");
+		
+		if (!(testCaseData.get("ConfirmationOption").equals("") | testCaseData.get("ConfirmationOption").equals(null))) {
+			if (testCaseData.get("ConfirmationOption").equalsIgnoreCase("by email")) {
+				browserAction.ScrollAndClickOnElement(emailConfirmationRadioButton, imgPath,
+						"Selecting only Email as Confirmation option");
+			} else if (testCaseData.get("ConfirmationOption").equalsIgnoreCase("by mobile")) {
+				browserAction.ScrollAndClickOnElement(mobileConfirmationRadioButton, imgPath,
+						"Selecting only Mobile as Confirmation option");
+			} else if (testCaseData.get("ConfirmationOption").equalsIgnoreCase("Both")) {
+				browserAction.ScrollAndClickOnElement(emailConfirmationRadioButton, imgPath,
+						"Selecting Email as Confirmation option");
+				browserAction.ScrollAndClickOnElement(mobileConfirmationRadioButton, imgPath,
+						"Selecting Mobile as Confirmation option");
+			}
+			report.assertThat(verifyConfirmationOptions(), "Confirmation Option has been selected successfully","Confirmation Option has not been selected successfully");
 		}
 
 		if (testCaseData.get("Confirmation1").equalsIgnoreCase("Yes")) {
@@ -542,7 +636,6 @@ public class VTBPersonalDetailsPage {
 					"Selecting Terms and 2nd condition");
 		}
 		
-		report.assertThat(verifyConfirmationOptions(), "Confirmation Option has been selected successfully","Confirmation Option has not been selected successfully");
 		report.assertThat(verifyTermsConditions(), "Terms and Conditions has been selected successfully", "Terms and Conditions has not been selected successfully");
 		
 		browserAction.scrollToElement(continueSecurelyRadioButton);
@@ -555,6 +648,7 @@ public class VTBPersonalDetailsPage {
 	 */
 	public boolean verifyConfirmationOptions() {
 		boolean dataToBeReturn = false;
+		
 		if (emailConfirmationRadioButton.isSelected() || mobileConfirmationRadioButton.isSelected()) {
 			dataToBeReturn = true;
 		}

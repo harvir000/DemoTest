@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import com.VTB.Utils.Excel;
 import com.VTB.Utils.FactoryMethod;
@@ -18,10 +19,11 @@ import com.VTB.Utils.BrowserActions;
 import com.VTB.Utils.DriverFactory;
 import com.VTB.Utils.XMLReader;
 import com.applitools.eyes.Eyes;
+import com.applitools.eyes.TestFailedException;
 
 public class Controller{
 
-	public WebDriver driver;
+	public  WebDriver driver;
 	public Reporting report;
 	String BrowserIP;
 	
@@ -65,7 +67,7 @@ public class Controller{
 		
 		FactoryMethod FactMethodObj = new FactoryMethod();
 		BrowserActions browserAction = new BrowserActions(this.driver, report);
-		
+		String browserName=((RemoteWebDriver) driver).getCapabilities().getBrowserName();
 		/*Execute Test Cases having status marked as 'Yes' or 'Y'*/
 		for(String key: map.keySet())
 		{
@@ -78,33 +80,45 @@ public class Controller{
 					String testDescription 	= values.get(0);
 					String module			= values.get(2);
 					
-					driver = eyes.open(driver, testid, testDescription);
-					driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
-					driver.navigate().to(new XMLReader(new File("config.xml").getAbsolutePath()).readTagVal("URL"));
-					handleSecurityCertificate();
-					browserAction.WaittoPageLoad();
-
-					System.out.println(testid);
-					System.out.println(testDescription);
 					
-					TCSelection TestCaseSelectionObj = FactMethodObj.testModulesSelection(module);
-					if(TestCaseSelectionObj != null)
-					{
-						/*Creating object of test case class. It is identified with TESTID as mentioned in master sheet and testdata sheet*/
-						report.test = report.extentReports.startTest(testid);
-						TestCaseSelectionObj.testCasesSelection(testid, report, this.driver, this.eyes);
-						report.extentReports.endTest(report.test);
+					
+					try {
+						driver=eyes.open(driver, testid, browserName+"_"+testDescription);
+						driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+						driver.navigate().to(new XMLReader(new File("config.xml").getAbsolutePath()).readTagVal("URL"));
+						handleSecurityCertificate();
+						browserAction.WaittoPageLoad();
+
+						System.out.println(testid);
+						System.out.println(testDescription);
+						
+						TCSelection TestCaseSelectionObj = FactMethodObj.testModulesSelection(module);
+						if(TestCaseSelectionObj != null)
+						{
+							/*Creating object of test case class. It is identified with TESTID as mentioned in master sheet and testdata sheet*/
+							report.test = report.extentReports.startTest(testid);
+							TestCaseSelectionObj.testCasesSelection(testid, report, this.driver, this.eyes);
+							report.extentReports.endTest(report.test);
+						}
+						else
+						{
+							throw new Exception("Unable to create Object of class : "+module);
+						}
+						//driver.quit();
+						/*Close Eyes Instance for Current Test*/
+						eyes.close();
+					} catch (Exception e ) {
+						System.out.println(e.getMessage());
 					}
-					else
+					catch(TestFailedException testFailed)
 					{
-						throw new Exception("Unable to create Object of class : "+module);
+						System.out.println("Test failed due to Applitools Exception: "+testFailed);
+						
 					}
 					
-					/*Close Eyes Instance for Current Test*/
-
-					eyes.close();
-					eyes.abortIfNotClosed();
-			
+					finally {
+						eyes.abortIfNotClosed();
+					}
 				}
 			}
 		}
